@@ -16,6 +16,8 @@ export default function Validator() {
   const activeResult =
     activePattern && allResults ? allResults[PATTERNS.indexOf(activePattern)] : null;
 
+  const activeLabel = activePattern?.name ?? 'AUTO';
+
   function handleModeChange(id: string) {
     setMode(id);
     if (id !== 'auto') {
@@ -25,40 +27,27 @@ export default function Validator() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col gap-0">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 flex flex-col gap-8">
 
-      {/* Titulo */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-black text-slate-900 tracking-tight">Validador</h1>
-        <p className="text-sm text-slate-500 mt-1">
-          Motor ECMAScript RegExp &mdash; evaluacion en tiempo real
-        </p>
-      </div>
-
-      {/* Tabs de modo */}
+      {/* Selector de modo */}
       <ModeSelector patterns={PATTERNS} activeId={mode} onChange={handleModeChange} />
 
-      {/* Input prominente */}
-      <div className="mt-8 mb-8">
-        <TestInput
-          value={input}
-          onChange={setInput}
-          matchCount={mode === 'auto' ? matchCount : activeResult?.matched ? 1 : 0}
-          total={mode === 'auto' ? PATTERNS.length : 1}
-        />
-      </div>
+      {/* Input */}
+      <TestInput
+        value={input}
+        onChange={setInput}
+        matchCount={mode === 'auto' ? matchCount : activeResult?.matched ? 1 : 0}
+        total={mode === 'auto' ? PATTERNS.length : 1}
+        modeName={activeLabel}
+      />
 
-      {/* ── Modo AUTO: lista vertical de patrones ── */}
+      {/* Modo AUTO — lista en tarjeta blanca */}
       {mode === 'auto' && (
         <div>
-          <div className="flex items-center justify-between mb-3 px-1">
-            <p className="text-xs font-black uppercase tracking-widest text-slate-500">
-              Resultados
-            </p>
-            <p className="text-xs font-mono text-slate-400">5 expresiones</p>
-          </div>
-
-          <div className="border border-slate-200 bg-white divide-y divide-slate-100">
+          <h2 className="text-base font-bold text-slate-800 mb-3">
+            Resultados de validacion
+          </h2>
+          <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden divide-y divide-slate-100">
             {PATTERNS.map((pattern, i) => (
               <PatternRow
                 key={pattern.id}
@@ -71,7 +60,7 @@ export default function Validator() {
         </div>
       )}
 
-      {/* ── Modo ESPECIFICO: panel de detalle centrado ── */}
+      {/* Modo especifico — panel de detalle */}
       {mode !== 'auto' && activePattern && (
         <PatternCard
           pattern={activePattern}

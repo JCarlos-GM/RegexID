@@ -1,3 +1,4 @@
+import { Zap } from 'lucide-react';
 import type { PatternDef } from '../core';
 
 interface ModeSelectorProps {
@@ -6,24 +7,34 @@ interface ModeSelectorProps {
   onChange: (id: string) => void;
 }
 
-// Tabs horizontales — estilo minimalista con indicador de linea inferior
 export default function ModeSelector({ patterns, activeId, onChange }: ModeSelectorProps) {
-  const tabs = [{ id: 'auto', label: 'Auto' }, ...patterns.map((p) => ({ id: p.id, label: p.name }))];
+  const tabs = [{ id: 'auto', label: 'AUTO' }, ...patterns.map((p) => ({ id: p.id, label: p.name }))];
 
   return (
-    <div className="flex items-end gap-0 border-b border-slate-200 overflow-x-auto">
+    <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-1.5 py-1.5 w-fit shadow-sm">
       {tabs.map(({ id, label }) => {
         const active = activeId === id;
+        const isAuto = id === 'auto';
+
+        if (active) {
+          return (
+            <button
+              key={id}
+              onClick={() => onChange(id)}
+              className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-white transition-all"
+              style={{ backgroundColor: 'var(--color-accent)' }}
+            >
+              {isAuto && <Zap size={11} fill="currentColor" />}
+              {label}
+            </button>
+          );
+        }
+
         return (
           <button
             key={id}
             onClick={() => onChange(id)}
-            className={`px-5 py-3 text-xs font-black uppercase tracking-widest border-b-2 -mb-px transition-colors duration-150 whitespace-nowrap ${
-              active
-                ? 'text-slate-900 border-current'
-                : 'text-slate-400 border-transparent hover:text-slate-600 hover:border-slate-300'
-            }`}
-            style={active ? { borderColor: 'var(--color-accent)', color: 'var(--color-accent)' } : {}}
+            className="px-4 py-1.5 rounded-full text-xs font-semibold text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors tracking-wide"
           >
             {label}
           </button>
