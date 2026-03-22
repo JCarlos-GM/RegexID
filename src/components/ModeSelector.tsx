@@ -8,15 +8,22 @@ interface ModeSelectorProps {
 }
 
 export default function ModeSelector({ patterns, activeId, onChange }: ModeSelectorProps) {
-  const tabs = [{ id: 'auto', label: 'AUTO' }, ...patterns.map((p) => ({ id: p.id, label: p.name }))];
+  // Primera opcion siempre es AUTO, luego un tab por cada patron
+  const tabs = [
+    { id: 'auto', label: 'AUTO' },
+    ...patterns.map((p) => ({ id: p.id, label: p.name })),
+  ];
 
   return (
-    <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-1.5 py-1.5 w-full overflow-x-auto shadow-sm" style={{ scrollbarWidth: 'none' }}>
+    <div
+      className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-1.5 py-1.5 w-full overflow-x-auto shadow-sm"
+      style={{ scrollbarWidth: 'none' }}
+    >
       {tabs.map(({ id, label }) => {
-        const active = activeId === id;
-        const isAuto = id === 'auto';
+        const estaActivo = activeId === id;
+        const esAuto = id === 'auto';
 
-        if (active) {
+        if (estaActivo) {
           return (
             <button
               key={id}
@@ -24,7 +31,7 @@ export default function ModeSelector({ patterns, activeId, onChange }: ModeSelec
               className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-white transition-all"
               style={{ backgroundColor: 'var(--color-accent)' }}
             >
-              {isAuto && <Zap size={11} fill="currentColor" />}
+              {esAuto && <Zap size={11} fill="currentColor" />}
               {label}
             </button>
           );
