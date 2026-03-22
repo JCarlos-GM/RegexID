@@ -15,7 +15,7 @@ export default function Patterns() {
         </p>
         <h1 className="text-3xl font-black text-slate-900">Patrones de validacion</h1>
         <p className="text-slate-500 mt-2 max-w-2xl">
-          Cada patron define una expresion regular con su anatomia token a token y un ejemplo de cadena valida.
+          Cada patron define una expresion regular con su estructura parte por parte y un ejemplo de cadena valida.
           Son las expresiones sugeridas en la practica de Lenguajes y Automatas I.
         </p>
       </div>

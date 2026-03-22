@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Zap, BookOpen, Layers, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 import { PATTERNS } from '../core';
 
 // ── Herramientas del desarrollador (carrusel) ─────────────────
@@ -258,17 +258,14 @@ function MacWindow({ children }: { children: React.ReactNode }) {
 // ── Features ──────────────────────────────────────────────────
 const features = [
   {
-    icon: Zap,
     title: 'Motor en tiempo real',
     desc: 'Cada tecla ejecuta el motor RegExp de JavaScript sobre los 5 patrones de forma simultanea.',
   },
   {
-    icon: Layers,
     title: 'Cinco tipos de validadores',
     desc: 'Nombre, Telefono, Correo, RFC y CURP — las expresiones de la practica de la asignatura.',
   },
   {
-    icon: BookOpen,
     title: 'Estructura de cada patron detallada',
     desc: 'Selecciona un patron especifico para ver el desglose de la cadena.',
   },
@@ -366,11 +363,8 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {features.map(({ icon: Icon, title, desc }) => (
+          {features.map(({ title, desc }) => (
             <div key={title} className="p-8 border border-slate-200 bg-white dark:bg-slate-100 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
-              <div className="w-10 h-10 flex items-center justify-center border border-slate-200 rounded mb-5">
-                <Icon size={18} className="text-slate-700" />
-              </div>
               <h3 className="font-black text-slate-900 mb-2">{title}</h3>
               <p className="text-sm text-slate-500 leading-relaxed">{desc}</p>
             </div>

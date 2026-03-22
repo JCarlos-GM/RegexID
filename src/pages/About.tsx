@@ -2,7 +2,7 @@ import { Github, ExternalLink, Code2, GraduationCap, User, Cpu, BookOpen, Layers
 
 const MODULES = [
   { icon: Cpu,      label: 'Validador',       desc: 'Motor RegExp en tiempo real contra 5 patrones de datos personales' },
-  { icon: BookOpen, label: 'Patrones',        desc: 'Anatomia token a token de cada expresion regular de la practica'  },
+  { icon: BookOpen, label: 'Patrones',        desc: 'Estructura parte por parte de cada expresion regular de la practica'  },
   { icon: Layers,   label: 'Modo AUTO',       desc: 'Deteccion automatica del tipo de dato ingresado simultaneamente'   },
 ];
 
