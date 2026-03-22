@@ -28,7 +28,7 @@ export default function TestInput({ value, onChange, matchCount, total, modeName
             placeholder="Escribe o pega la cadena..."
             spellCheck={false}
             autoComplete="off"
-            className="flex-1 font-mono text-3xl font-semibold text-slate-900 bg-transparent outline-none placeholder:text-slate-300 placeholder:font-normal"
+            className="flex-1 min-w-0 font-mono text-xl sm:text-3xl font-semibold text-slate-900 bg-transparent outline-none placeholder:text-slate-300 placeholder:font-normal"
           />
           {hasInput && (
             <button

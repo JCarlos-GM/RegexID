@@ -39,12 +39,12 @@ export default function PatternRow({ pattern, result, onLoadExample }: PatternRo
 
       <div className="flex-1 px-5 py-4 min-w-0">
         {/* Fila principal */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
           {/* Nombre */}
-          <span className="font-bold text-slate-800 text-sm w-20 shrink-0">{pattern.name}</span>
+          <span className="font-bold text-slate-800 text-sm w-16 sm:w-20 shrink-0">{pattern.name}</span>
 
           {/* Regex en caja gris */}
-          <div className="flex-1 min-w-0 bg-slate-100 rounded-lg px-3 py-2 font-mono text-xs text-slate-500 truncate">
+          <div className="flex-1 min-w-0 bg-slate-100 rounded-lg px-3 py-2 font-mono text-xs text-slate-500 truncate hidden sm:block">
             {pattern.regex.source}
           </div>
 

@@ -11,7 +11,7 @@ export default function ModeSelector({ patterns, activeId, onChange }: ModeSelec
   const tabs = [{ id: 'auto', label: 'AUTO' }, ...patterns.map((p) => ({ id: p.id, label: p.name }))];
 
   return (
-    <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-1.5 py-1.5 w-fit shadow-sm">
+    <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-1.5 py-1.5 w-full overflow-x-auto shadow-sm" style={{ scrollbarWidth: 'none' }}>
       {tabs.map(({ id, label }) => {
         const active = activeId === id;
         const isAuto = id === 'auto';
