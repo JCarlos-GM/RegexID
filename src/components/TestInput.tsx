@@ -1,3 +1,5 @@
+import { X } from 'lucide-react';
+
 interface TestInputProps {
   value: string;
   onChange: (v: string) => void;
@@ -5,44 +7,61 @@ interface TestInputProps {
   total: number;
 }
 
-// Zona central de entrada de cadena — donde el usuario escribe lo que quiere evaluar
 export default function TestInput({ value, onChange, matchCount, total }: TestInputProps) {
   const hasInput = value.length > 0;
   const allMatch = hasInput && matchCount === total;
 
   return (
-    <div className={`test-input-wrapper ${allMatch ? 'test-input--all' : hasInput && matchCount > 0 ? 'test-input--partial' : ''}`}>
-      <div className="test-input-header">
-        <span className="test-input-label">Cadena de prueba</span>
+    <div
+      className="border bg-white p-5 transition-colors duration-200"
+      style={{
+        borderColor: allMatch
+          ? 'var(--color-match)'
+          : hasInput && matchCount > 0
+          ? 'var(--color-accent)'
+          : 'var(--color-slate-200)',
+      }}
+    >
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-xs font-black uppercase tracking-widest text-slate-400">
+          Cadena de prueba
+        </span>
         {hasInput && (
-          <span className="test-match-count">
+          <span
+            className="text-xs font-black font-mono"
+            style={{ color: allMatch ? 'var(--color-match)' : 'var(--color-accent)' }}
+          >
             {matchCount}/{total} patrones coinciden
           </span>
         )}
       </div>
 
-      <div className="test-input-field-row">
+      <div className="flex gap-2">
         <input
-          className="test-input-field"
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="Escribe la cadena a evaluar..."
           spellCheck={false}
           autoComplete="off"
+          className="flex-1 font-mono text-lg text-slate-900 bg-transparent outline-none placeholder:text-slate-300 border-b border-slate-200 pb-1 focus:border-slate-400 transition-colors"
         />
         {hasInput && (
-          <button className="test-clear-btn" onClick={() => onChange('')} title="Limpiar">
-            {'\u2715'}
+          <button
+            onClick={() => onChange('')}
+            className="p-1 text-slate-300 hover:text-slate-500 transition-colors"
+            aria-label="Limpiar"
+          >
+            <X size={16} />
           </button>
         )}
       </div>
 
-      <div className="test-input-meta">
-        <span className="test-char-count">{value.length} caracteres</span>
+      <div className="flex items-center justify-between mt-3">
+        <span className="text-xs font-mono text-slate-300">{value.length} chars</span>
         {!hasInput && (
-          <span className="test-hint">
-            El motor ejecuta las 5 expresiones regulares sobre tu cadena en tiempo real
+          <span className="text-xs text-slate-300">
+            El motor evalua las {total} expresiones en tiempo real
           </span>
         )}
       </div>

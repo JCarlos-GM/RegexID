@@ -1,61 +1,87 @@
-/* Variables globales y reset — dark theme para DeltaCheck */
-:root {
-  --bg-root:       #060a10;
-  --bg-secondary:  #0b1220;
-  --bg-card:       #0f1826;
-  --bg-input:      #08111c;
-  --bg-code:       #060d18;
+@import "tailwindcss";
 
-  --border-base:   #182436;
-  --border-focus:  #1e3a5f;
-  --border-match:  #0f7a52;
-  --border-nomatch:#8b2020;
+/* ---------------------------------------------------------------
+   Tema — variables de color del sistema DeltaCheck
+   Hereda la estetica de PseudoMath: slate + acento rojo/naranja
+---------------------------------------------------------------- */
+@theme {
+  --color-accent:       #db3f59;
+  --color-accent-hover: #b8354b;
+  --color-accent-muted: #fcedf0;
 
-  --glow-match:    rgba(15, 122, 82, 0.14);
-  --glow-nomatch:  rgba(139, 32, 32, 0.12);
-  --glow-accent:   rgba(37, 99, 235, 0.18);
+  --color-slate-50:  #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
 
-  --text-primary:  #d8e8f8;
-  --text-secondary:#5a7a9a;
-  --text-muted:    #283c52;
-  --text-match:    #1fd68a;
-  --text-nomatch:  #e05050;
-  --text-idle:     #3a5570;
-  --text-code:     #7dd3fc;
-  --text-regex:    #a78bfa;
+  --color-match:   #2D8A56;
+  --color-nomatch: #db3f59;
+  --color-match-bg:   #e6f3eb;
+  --color-nomatch-bg: #fcedf0;
 
-  --accent:        #2563eb;
-
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-
-  --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
   --font-mono: 'Consolas', 'Cascadia Code', 'Courier New', monospace;
-
-  --trans-fast: 120ms ease;
-  --trans-med:  220ms ease;
 }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* Dark mode — naranja como acento, grises invertidos */
+.dark {
+  --color-accent:       #ff9000;
+  --color-accent-hover: #e68200;
+  --color-accent-muted: #2d1a00;
+
+  --color-slate-50:  #141414;
+  --color-slate-100: #1f1f1f;
+  --color-slate-200: #2c2c2c;
+  --color-slate-300: #3a3a3a;
+  --color-slate-400: #777777;
+  --color-slate-500: #999999;
+  --color-slate-600: #bbbbbb;
+  --color-slate-700: #cccccc;
+  --color-slate-800: #e0e0e0;
+  --color-slate-900: #f0f0f0;
+
+  --color-match-bg:   #0d2018;
+  --color-nomatch-bg: #2d1a00;
+}
+
+/* ---------------------------------------------------------------
+   Reset y base global
+---------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
 
 html {
-  font-size: 16px;
+  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
 }
 
 body {
-  background: var(--bg-root);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
-  line-height: 1.5;
-  min-height: 100vh;
+  @apply bg-slate-50 text-slate-900 font-sans;
+  transition: background-color 200ms ease, color 200ms ease;
 }
 
-#root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+/* Patron de cuadricula — igual que PseudoMath */
+.grid-bg {
+  background-image:
+    linear-gradient(var(--color-slate-200) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-slate-200) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.dark .grid-bg {
+  background-image: none;
 }
 
-button { cursor: pointer; font-family: inherit; }
+/* Scrollbar */
+::-webkit-scrollbar       { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--color-slate-100); }
+::-webkit-scrollbar-thumb { background: var(--color-slate-300); border-radius: 4px; }
+
+/* Seleccion de texto */
+::selection {
+  background: var(--color-accent-muted);
+  color: var(--color-accent);
+}
