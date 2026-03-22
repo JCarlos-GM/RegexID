@@ -16,7 +16,7 @@ export default function ModeSelector({ patterns, activeId, onChange }: ModeSelec
 
   return (
     <div className="flex items-center gap-3 flex-wrap">
-      <span className="text-xs font-black uppercase tracking-widest text-slate-400">Modo</span>
+      <span className="text-xs font-black uppercase tracking-widest text-slate-600">Modo</span>
       <div className="flex flex-wrap gap-1.5">
         <button
           className={`${btnBase} ${activeId === 'auto' ? btnActive : btnIdle}`}

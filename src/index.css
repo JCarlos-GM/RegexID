@@ -5,48 +5,50 @@
    Hereda la estetica de PseudoMath: slate + acento rojo/naranja
 ---------------------------------------------------------------- */
 @theme {
-  --color-accent:       #db3f59;
-  --color-accent-hover: #b8354b;
-  --color-accent-muted: #fcedf0;
+  /* Acento primario: rojo — identidad, precision, contraste fuerte */
+  --color-accent:       #dc2626;
+  --color-accent-hover: #b91c1c;
+  --color-accent-muted: #fef2f2;
 
-  --color-slate-50:  #f8fafc;
-  --color-slate-100: #f1f5f9;
-  --color-slate-200: #e2e8f0;
-  --color-slate-300: #cbd5e1;
-  --color-slate-400: #94a3b8;
-  --color-slate-500: #64748b;
-  --color-slate-600: #475569;
-  --color-slate-700: #334155;
-  --color-slate-800: #1e293b;
-  --color-slate-900: #0f172a;
+  /* Grises neutrales con temperatura calida */
+  --color-slate-50:  #fafaf9;
+  --color-slate-100: #f5f5f4;
+  --color-slate-200: #e7e5e4;
+  --color-slate-300: #d6d3d1;
+  --color-slate-400: #a8a29e;
+  --color-slate-500: #78716c;
+  --color-slate-600: #57534e;
+  --color-slate-700: #44403c;
+  --color-slate-800: #292524;
+  --color-slate-900: #1c1917;
 
-  --color-match:   #2D8A56;
-  --color-nomatch: #db3f59;
-  --color-match-bg:   #e6f3eb;
-  --color-nomatch-bg: #fcedf0;
+  --color-match:      #16a34a;
+  --color-nomatch:    #dc2626;
+  --color-match-bg:   #f0fdf4;
+  --color-nomatch-bg: #fef2f2;
 
   --font-mono: 'Consolas', 'Cascadia Code', 'Courier New', monospace;
 }
 
-/* Dark mode — naranja como acento, grises invertidos */
+/* Dark mode — rojo mas claro para legibilidad sobre fondos oscuros */
 .dark {
-  --color-accent:       #ff9000;
-  --color-accent-hover: #e68200;
-  --color-accent-muted: #2d1a00;
+  --color-accent:       #f87171;
+  --color-accent-hover: #ef4444;
+  --color-accent-muted: #1f0808;
 
-  --color-slate-50:  #141414;
-  --color-slate-100: #1f1f1f;
-  --color-slate-200: #2c2c2c;
-  --color-slate-300: #3a3a3a;
-  --color-slate-400: #777777;
-  --color-slate-500: #999999;
-  --color-slate-600: #bbbbbb;
-  --color-slate-700: #cccccc;
-  --color-slate-800: #e0e0e0;
-  --color-slate-900: #f0f0f0;
+  --color-slate-50:  #0f0e0d;
+  --color-slate-100: #1a1916;
+  --color-slate-200: #26231f;
+  --color-slate-300: #363028;
+  --color-slate-400: #6b6257;
+  --color-slate-500: #978b7e;
+  --color-slate-600: #bfb5ab;
+  --color-slate-700: #d9d0c7;
+  --color-slate-800: #ede8e3;
+  --color-slate-900: #f7f4f1;
 
-  --color-match-bg:   #0d2018;
-  --color-nomatch-bg: #2d1a00;
+  --color-match-bg:   #052e16;
+  --color-nomatch-bg: #1a0808;
 }
 
 /* ---------------------------------------------------------------
@@ -62,17 +64,6 @@ html {
 body {
   @apply bg-slate-50 text-slate-900 font-sans;
   transition: background-color 200ms ease, color 200ms ease;
-}
-
-/* Patron de cuadricula — igual que PseudoMath */
-.grid-bg {
-  background-image:
-    linear-gradient(var(--color-slate-200) 1px, transparent 1px),
-    linear-gradient(90deg, var(--color-slate-200) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-.dark .grid-bg {
-  background-image: none;
 }
 
 /* Scrollbar */

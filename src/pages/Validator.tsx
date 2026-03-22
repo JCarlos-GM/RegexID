@@ -48,10 +48,10 @@ export default function Validator() {
       {mode === 'auto' && (
         <div>
           <div className="flex items-center justify-between mb-4">
-            <p className="text-xs font-black uppercase tracking-widest text-slate-400">
+            <p className="text-xs font-black uppercase tracking-widest text-slate-600">
               Patrones activos
             </p>
-            <span className="text-xs font-mono text-slate-400">
+            <span className="text-xs font-mono text-slate-500">
               {PATTERNS.length} expresiones regulares
             </span>
           </div>

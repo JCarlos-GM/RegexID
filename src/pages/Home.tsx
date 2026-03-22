@@ -24,9 +24,7 @@ export default function Home() {
   return (
     <div>
       {/* ---- Hero ---- */}
-      <section className="grid-bg relative overflow-hidden">
-        {/* Gradiente de fade sobre el patron */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-50 dark:to-slate-50 pointer-events-none" />
+      <section className="relative overflow-hidden border-b border-slate-200">
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-28 text-center">
           {/* Etiqueta de categoria */}
@@ -39,29 +37,30 @@ export default function Home() {
           </div>
 
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-slate-900 leading-none tracking-tight mb-6">
-            Valida cadenas con{' '}
-            <span className="block" style={{ color: 'var(--color-accent)' }}>
-              Expresiones Regulares
+            El motor de{' '}
+            <span style={{ color: 'var(--color-accent)' }}>RegexID</span>
+            <span className="block text-slate-400 font-mono text-2xl sm:text-3xl mt-3 tracking-wider">
+              /^[patron]+$/
             </span>
           </h1>
 
-          <p className="max-w-2xl mx-auto text-lg text-slate-500 mb-10 leading-relaxed">
-            Escribe cualquier cadena y el motor ECMAScript la evalua en tiempo real
-            contra los 5 patrones de datos personales oficiales.
+          <p className="max-w-xl mx-auto text-lg text-slate-500 mb-10 leading-relaxed">
+            Pega cualquier cadena y el motor ECMAScript la evalua en tiempo real
+            contra los 5 patrones de datos personales de la practica.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               to="/validar"
-              className="flex items-center gap-2 px-6 py-3 font-black text-sm text-white rounded transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+              className="flex items-center gap-2 px-6 py-3 font-black text-sm text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
               style={{ backgroundColor: 'var(--color-accent)' }}
             >
-              Comenzar a validar
+              Abrir validador
               <ArrowRight size={16} />
             </Link>
             <Link
               to="/patrones"
-              className="flex items-center gap-2 px-6 py-3 font-black text-sm text-slate-700 dark:text-slate-700 border border-slate-300 rounded transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:bg-slate-100"
+              className="flex items-center gap-2 px-6 py-3 font-black text-sm text-slate-700 border border-slate-300 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md hover:bg-slate-100"
             >
               Ver patrones
             </Link>

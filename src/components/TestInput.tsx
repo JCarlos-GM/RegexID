@@ -23,7 +23,7 @@ export default function TestInput({ value, onChange, matchCount, total }: TestIn
       }}
     >
       <div className="flex items-center justify-between mb-3">
-        <span className="text-xs font-black uppercase tracking-widest text-slate-400">
+        <span className="text-xs font-black uppercase tracking-widest text-slate-600">
           Cadena de prueba
         </span>
         {hasInput && (
@@ -44,12 +44,12 @@ export default function TestInput({ value, onChange, matchCount, total }: TestIn
           placeholder="Escribe la cadena a evaluar..."
           spellCheck={false}
           autoComplete="off"
-          className="flex-1 font-mono text-lg text-slate-900 bg-transparent outline-none placeholder:text-slate-300 border-b border-slate-200 pb-1 focus:border-slate-400 transition-colors"
+          className="flex-1 font-mono text-lg text-slate-900 bg-transparent outline-none placeholder:text-slate-400 border-b-2 border-slate-200 pb-1 focus:border-slate-500 transition-colors"
         />
         {hasInput && (
           <button
             onClick={() => onChange('')}
-            className="p-1 text-slate-300 hover:text-slate-500 transition-colors"
+            className="p-1 text-slate-400 hover:text-slate-700 transition-colors"
             aria-label="Limpiar"
           >
             <X size={16} />
@@ -58,9 +58,9 @@ export default function TestInput({ value, onChange, matchCount, total }: TestIn
       </div>
 
       <div className="flex items-center justify-between mt-3">
-        <span className="text-xs font-mono text-slate-300">{value.length} chars</span>
+        <span className="text-xs font-mono text-slate-500">{value.length} chars</span>
         {!hasInput && (
-          <span className="text-xs text-slate-300">
+          <span className="text-xs text-slate-500">
             El motor evalua las {total} expresiones en tiempo real
           </span>
         )}
