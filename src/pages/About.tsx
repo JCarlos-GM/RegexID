@@ -13,7 +13,7 @@ export default function About() {
     <div className="max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12 flex flex-col gap-0">
 
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <div className="relative border border-slate-200 bg-white overflow-hidden mb-8">
+      <div className="relative border border-slate-200 bg-white dark:bg-slate-100 overflow-hidden mb-8">
         {/* Texto decorativo de fondo */}
         <span
           className="absolute right-0 top-0 font-black leading-none select-none pointer-events-none"
@@ -63,7 +63,7 @@ export default function About() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-slate-200 mb-px">
 
         {/* Institución */}
-        <div className="bg-white px-8 py-7">
+        <div className="bg-white dark:bg-slate-100 px-8 py-7">
           <div className="flex items-center gap-3 mb-5">
             <div className="w-8 h-8 flex items-center justify-center bg-slate-100 border border-slate-200">
               <GraduationCap size={16} className="text-slate-600" />
@@ -87,7 +87,7 @@ export default function About() {
         </div>
 
         {/* El proyecto */}
-        <div className="bg-white px-8 py-7">
+        <div className="bg-white dark:bg-slate-100 px-8 py-7">
           <div className="flex items-center gap-3 mb-5">
             <div className="w-8 h-8 flex items-center justify-center bg-slate-100 border border-slate-200">
               <Code2 size={16} className="text-slate-600" />
@@ -126,7 +126,7 @@ export default function About() {
       </div>
 
       {/* ── Footer strip ──────────────────────────────────────── */}
-      <div className="mt-8 border border-slate-200 bg-white px-8 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div className="mt-8 border border-slate-200 bg-white dark:bg-slate-100 px-8 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <User size={14} className="text-slate-400" />
           <p className="text-xs text-slate-500">

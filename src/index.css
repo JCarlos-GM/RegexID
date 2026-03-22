@@ -32,8 +32,8 @@
 
 /* Dark mode — rojo mas claro para legibilidad sobre fondos oscuros */
 .dark {
-  --color-accent:       #f87171;
-  --color-accent-hover: #ef4444;
+  --color-accent:       #ef4444;
+  --color-accent-hover: #dc2626;
   --color-accent-muted: #1f0808;
 
   --color-slate-50:  #0f0e0d;
@@ -49,6 +49,12 @@
 
   --color-match-bg:   #052e16;
   --color-nomatch-bg: #1a0808;
+
+  /* Tonos rojo oscuros para fondos decorativos en dark mode */
+  --color-red-50:  #1a0505;
+  --color-red-100: #3d0f0f;
+  --color-red-200: #5c1a1a;
+  --color-red-300: #7c2828;
 }
 
 /* ---------------------------------------------------------------

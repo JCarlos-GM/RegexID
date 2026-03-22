@@ -47,7 +47,7 @@ export default function Validator() {
           <h2 className="text-base font-bold text-slate-800 mb-3">
             Resultados de validacion
           </h2>
-          <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden divide-y divide-slate-100">
+          <div className="bg-white dark:bg-slate-100 border border-slate-200 rounded-2xl shadow-sm overflow-hidden divide-y divide-slate-100">
             {PATTERNS.map((pattern, i) => (
               <PatternRow
                 key={pattern.id}

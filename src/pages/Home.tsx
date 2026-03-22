@@ -369,7 +369,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {features.map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="p-8 border border-slate-200 bg-white hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+            <div key={title} className="p-8 border border-slate-200 bg-white dark:bg-slate-100 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
               <div className="w-10 h-10 flex items-center justify-center border border-slate-200 rounded mb-5">
                 <Icon size={18} className="text-slate-700" />
               </div>
@@ -390,7 +390,7 @@ export default function Home() {
             <h2 className="text-3xl font-black text-slate-900">Los 5 patrones de la practica</h2>
           </div>
 
-          <div className="flex flex-col divide-y divide-slate-200 border border-slate-200 bg-white">
+          <div className="flex flex-col divide-y divide-slate-200 border border-slate-200 bg-white dark:bg-slate-100">
             {PATTERNS.map((p) => (
               <div key={p.id} className="flex flex-col sm:flex-row sm:items-center gap-3 px-6 py-5 hover:bg-slate-50 transition-colors">
                 <div className="flex items-center gap-3 sm:w-32 shrink-0">

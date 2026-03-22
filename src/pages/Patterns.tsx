@@ -25,7 +25,7 @@ export default function Patterns() {
         {PATTERNS.map((p) => {
           const isOpen = open === p.id;
           return (
-            <div key={p.id} className="bg-white">
+            <div key={p.id} className="bg-white dark:bg-slate-100">
               {/* Cabecera del acordeon */}
               <button
                 className="w-full flex items-center gap-4 px-6 py-5 text-left hover:bg-slate-50 transition-colors"
@@ -54,7 +54,7 @@ export default function Patterns() {
                     <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2">
                       Expresion regular
                     </p>
-                    <div className="flex items-center gap-1 font-mono text-sm px-4 py-3 bg-white border border-slate-200 overflow-x-auto">
+                    <div className="flex items-center gap-1 font-mono text-sm px-4 py-3 bg-white dark:bg-slate-200 border border-slate-200 overflow-x-auto">
                       <span className="text-slate-400">/</span>
                       <span className="text-purple-600">{p.regex.source}</span>
                       <span className="text-slate-400">/</span>
@@ -72,7 +72,7 @@ export default function Patterns() {
                           key={i}
                           className="flex items-start sm:items-center gap-3 flex-col sm:flex-row"
                         >
-                          <code className="font-mono text-xs px-3 py-1.5 bg-white border border-slate-200 text-purple-600 shrink-0 min-w-40">
+                          <code className="font-mono text-xs px-3 py-1.5 bg-white dark:bg-slate-200 border border-slate-200 text-purple-600 dark:text-purple-400 shrink-0 min-w-40">
                             {part.token}
                           </code>
                           <span className="text-slate-400 shrink-0 hidden sm:block">&rarr;</span>
@@ -87,7 +87,7 @@ export default function Patterns() {
                     <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2">
                       Ejemplo valido
                     </p>
-                    <div className="inline-flex items-center gap-3 px-4 py-2 border bg-white"
+                    <div className="inline-flex items-center gap-3 px-4 py-2 border bg-white dark:bg-slate-200"
                       style={{ borderColor: 'var(--color-match)' }}>
                       <span className="text-xs font-black"
                         style={{ color: 'var(--color-match)' }}>

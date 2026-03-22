@@ -19,7 +19,7 @@ export default function TestInput({ value, onChange, matchCount, total, modeName
       <p className="text-xs font-black uppercase tracking-widest text-slate-400 px-1">Cadena a evaluar</p>
 
       {/* Caja del input */}
-      <div className="bg-white border border-slate-200 rounded-2xl px-5 py-4 shadow-sm transition-all"
+      <div className="bg-white dark:bg-slate-100 border border-slate-200 rounded-2xl px-5 py-4 shadow-sm transition-all"
         style={{ borderColor: hayTexto ? `${colorActivo}55` : '' }}
       >
         <div className="flex items-center gap-3">

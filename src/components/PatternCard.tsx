@@ -21,13 +21,13 @@ export default function PatternCard({ pattern, result, onLoadExample }: PatternC
   const coincide = result?.matched ?? false;
 
   return (
-    <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+    <div className="bg-white dark:bg-slate-100 border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
 
       {/* Encabezado */}
       <div className="px-7 py-6 flex items-start justify-between gap-4 bg-red-50 border-b-2 border-red-100">
         <div className="flex items-start gap-4">
           {/* Icono del patron */}
-          <div className="rounded-2xl p-3 shrink-0 bg-white border border-red-100" style={{ color: 'var(--color-accent)' }}>
+          <div className="rounded-2xl p-3 shrink-0 bg-white dark:bg-slate-200 border border-red-100" style={{ color: 'var(--color-accent)' }}>
             {getIcon(pattern.id)}
           </div>
           <div>

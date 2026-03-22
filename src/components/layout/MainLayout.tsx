@@ -55,7 +55,7 @@ export default function MainLayout() {
     <div className="min-h-screen flex flex-col bg-slate-50">
 
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white border-b border-slate-200">
+      <header className="sticky top-0 z-50 bg-white dark:bg-slate-100 border-b border-slate-200">
 
         {/* Franja de acento */}
         <div className="h-0.5 w-full" style={{ backgroundColor: 'var(--color-accent)' }} />
@@ -109,7 +109,7 @@ export default function MainLayout() {
 
               {/* Dropdown */}
               {settingsOpen && (
-                <div className="absolute right-0 top-8 w-56 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-50">
+                <div className="absolute right-0 top-8 w-56 bg-white dark:bg-slate-100 border border-slate-200 rounded-xl shadow-lg overflow-hidden z-50">
 
                   {/* Modo oscuro */}
                   <div className="px-4 py-3 border-b border-slate-100">
@@ -176,7 +176,7 @@ export default function MainLayout() {
               </button>
 
               {settingsOpen && (
-                <div className="absolute right-0 top-8 w-56 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-50">
+                <div className="absolute right-0 top-8 w-56 bg-white dark:bg-slate-100 border border-slate-200 rounded-xl shadow-lg overflow-hidden z-50">
                   <div className="px-4 py-3 border-b border-slate-100">
                     <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">Apariencia</p>
                     <button
@@ -236,7 +236,7 @@ export default function MainLayout() {
 
         {/* Nav mobile */}
         {menuOpen && (
-          <nav className="md:hidden border-t border-slate-100 bg-white px-6 py-4 flex flex-col gap-4">
+          <nav className="md:hidden border-t border-slate-100 bg-white dark:bg-slate-100 px-6 py-4 flex flex-col gap-4">
             {navLinks.map(({ to, label, end }) => (
               <NavLink
                 key={to} to={to} end={end}
@@ -257,7 +257,7 @@ export default function MainLayout() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white">
+      <footer className="border-t border-slate-200 bg-white dark:bg-slate-100">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="font-mono text-xs font-black text-white px-1.5 py-0.5" style={{ backgroundColor: 'var(--color-accent)' }}>

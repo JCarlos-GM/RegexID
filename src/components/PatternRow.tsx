@@ -27,14 +27,16 @@ export default function PatternRow({ pattern, result, onLoadExample }: PatternRo
 
   // Badge de resultado
   let badgeTexto = '—';
-  let badgeEstilo = { backgroundColor: '#f1f5f9', color: '#94a3b8', border: '1px solid #e2e8f0' };
+  let badgeClass = 'bg-slate-100 text-slate-400 border border-slate-200';
+  let badgeStyle: React.CSSProperties = {};
 
   if (hayInput && coincide) {
     badgeTexto = '✓ MATCH';
-    badgeEstilo = { backgroundColor: '#f0fdf4', color: '#16a34a', border: '1px solid #bbf7d0' };
+    badgeClass = 'bg-green-50 dark:bg-green-950 text-green-600 dark:text-green-400 border border-green-200 dark:border-green-900';
   } else if (hayInput && !coincide) {
     badgeTexto = '✗ NO MATCH';
-    badgeEstilo = { backgroundColor: '#fef2f2', color: 'var(--color-accent)', border: '1px solid #fecaca' };
+    badgeClass = 'bg-red-50 border border-red-100';
+    badgeStyle = { color: 'var(--color-accent)' };
   }
 
   return (
@@ -57,7 +59,7 @@ export default function PatternRow({ pattern, result, onLoadExample }: PatternRo
             /{pattern.regex.source}/
           </div>
 
-          <span className="shrink-0 text-xs font-black px-3 py-1 rounded-full whitespace-nowrap" style={badgeEstilo}>
+          <span className={`shrink-0 text-xs font-black px-3 py-1 rounded-full whitespace-nowrap ${badgeClass}`} style={badgeStyle}>
             {badgeTexto}
           </span>
 
