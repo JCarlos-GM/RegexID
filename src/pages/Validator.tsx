@@ -10,13 +10,10 @@ export default function Validator() {
   const [mode, setMode] = useState<string>('auto');
 
   const allResults = input ? PATTERNS.map((p) => testPattern(p, input)) : null;
-  const matchCount = allResults ? allResults.filter((r) => r.matched).length : 0;
 
   const activePattern = PATTERNS.find((p) => p.id === mode) ?? null;
   const activeResult =
     activePattern && allResults ? allResults[PATTERNS.indexOf(activePattern)] : null;
-
-  const activeLabel = activePattern?.name ?? 'AUTO';
 
   function handleModeChange(id: string) {
     setMode(id);
@@ -33,9 +30,6 @@ export default function Validator() {
       <TestInput
         value={input}
         onChange={setInput}
-        matchCount={mode === 'auto' ? matchCount : activeResult?.matched ? 1 : 0}
-        total={mode === 'auto' ? PATTERNS.length : 1}
-        modeName={activeLabel}
       />
 
       {/* Modo AUTO — lista en tarjeta blanca */}

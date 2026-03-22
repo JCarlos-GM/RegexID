@@ -59,7 +59,7 @@ export default function PatternRow({ pattern, result, onLoadExample }: PatternRo
             /{pattern.regex.source}/
           </div>
 
-          <span className={`shrink-0 text-xs font-black px-3 py-1 rounded-full whitespace-nowrap ${badgeClass}`} style={badgeStyle}>
+          <span className={`shrink-0 text-sm font-black w-24 text-center py-1.5 rounded-full whitespace-nowrap ${badgeClass}`} style={badgeStyle}>
             {badgeTexto}
           </span>
 
@@ -76,7 +76,7 @@ export default function PatternRow({ pattern, result, onLoadExample }: PatternRo
         {coincide && result && (
           <div className="mt-4">
             <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">
-              Desglose de captura
+              Análisis de la cadena
             </p>
             <div className="flex divide-x divide-slate-200">
               {pattern.decompose(result.value).map((seg, i) => (

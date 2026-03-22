@@ -1,17 +1,13 @@
-import { XIcon, CheckCircleIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
+import { XIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
 
 interface TestInputProps {
   value: string;
   onChange: (v: string) => void;
-  matchCount: number;
-  total: number;
-  modeName?: string;
   modeColor?: string;
 }
 
-export default function TestInput({ value, onChange, matchCount, total, modeName, modeColor }: TestInputProps) {
+export default function TestInput({ value, onChange, modeColor }: TestInputProps) {
   const hayTexto = value.length > 0;
-  const hayCoincidencias = hayTexto && matchCount > 0;
   const colorActivo = modeColor ?? '#dc2626';
 
   return (
@@ -23,7 +19,6 @@ export default function TestInput({ value, onChange, matchCount, total, modeName
         style={{ borderColor: hayTexto ? `${colorActivo}55` : '' }}
       >
         <div className="flex items-center gap-3">
-          {/* Icono de lupa */}
           <MagnifyingGlassIcon size={20} weight="bold" className="shrink-0 text-slate-300" />
 
           <input
@@ -36,7 +31,6 @@ export default function TestInput({ value, onChange, matchCount, total, modeName
             className="flex-1 min-w-0 font-mono text-xl sm:text-2xl font-semibold text-slate-900 bg-transparent outline-none placeholder:text-slate-300 placeholder:font-normal"
           />
 
-          {/* Boton limpiar */}
           {hayTexto && (
             <button
               onClick={() => onChange('')}
@@ -49,21 +43,9 @@ export default function TestInput({ value, onChange, matchCount, total, modeName
         </div>
       </div>
 
-      {/* Estadisticas debajo del input */}
-      <div className="flex items-center justify-between px-1">
+      {/* Contador de caracteres */}
+      <div className="px-1">
         <span className="text-xs text-slate-400">{value.length} caracteres</span>
-
-        {hayTexto ? (
-          <span
-            className="text-xs font-semibold flex items-center gap-1.5"
-            style={{ color: hayCoincidencias ? colorActivo : '#ef4444' }}
-          >
-            <CheckCircleIcon size={13} weight="fill" />
-            {matchCount} coincidencia{matchCount !== 1 ? 's' : ''} · modo {modeName ?? 'AUTO'}
-          </span>
-        ) : (
-          <span className="text-xs text-slate-400">{total} expresiones activas</span>
-        )}
       </div>
     </div>
   );

@@ -31,7 +31,7 @@ export default function Patterns() {
                 className="w-full flex items-center gap-4 px-6 py-5 text-left hover:bg-slate-50 transition-colors"
                 onClick={() => setOpen(isOpen ? '' : p.id)}
               >
-                <span className="px-2 py-0.5 text-xs font-black uppercase tracking-wider border border-slate-200 text-slate-400 shrink-0">
+                <span className="px-2 py-0.5 text-xs font-black uppercase tracking-wider border border-slate-200 text-slate-400 shrink-0 w-24 text-center">
                   {p.id}
                 </span>
                 <span className="font-black text-slate-900 text-base flex-1">{p.name}</span>
@@ -56,7 +56,7 @@ export default function Patterns() {
                     </p>
                     <div className="flex items-center gap-1 font-mono text-sm px-4 py-3 bg-white dark:bg-slate-200 border border-slate-200 overflow-x-auto">
                       <span className="text-slate-400">/</span>
-                      <span className="text-purple-600">{p.regex.source}</span>
+                      <span style={{ color: 'var(--color-accent)' }}>{p.regex.source}</span>
                       <span className="text-slate-400">/</span>
                     </div>
                   </div>
@@ -72,7 +72,7 @@ export default function Patterns() {
                           key={i}
                           className="flex items-start sm:items-center gap-3 flex-col sm:flex-row"
                         >
-                          <code className="font-mono text-xs px-3 py-1.5 bg-white dark:bg-slate-200 border border-slate-200 text-purple-600 dark:text-purple-400 shrink-0 min-w-40">
+                          <code className="font-mono text-xs px-3 py-1.5 bg-white dark:bg-slate-200 border border-slate-200 shrink-0 min-w-40" style={{ color: 'var(--color-accent)' }}>
                             {part.token}
                           </code>
                           <span className="text-slate-400 shrink-0 hidden sm:block">&rarr;</span>

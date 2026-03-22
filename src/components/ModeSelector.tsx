@@ -25,7 +25,7 @@ export default function ModeSelector({ patterns, activeId, onChange }: ModeSelec
 
   return (
     <div
-      className="flex items-center gap-1 bg-white dark:bg-slate-100 border border-slate-200 rounded-full px-1.5 py-1.5 w-full overflow-x-auto shadow-sm"
+      className="flex items-center justify-between gap-1 bg-white dark:bg-slate-100 border border-slate-200 rounded-full px-1.5 py-1.5 w-full overflow-x-auto shadow-sm"
       style={{ scrollbarWidth: 'none' }}
     >
       {tabs.map(({ id, label }) => {

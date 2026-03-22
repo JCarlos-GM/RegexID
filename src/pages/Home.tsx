@@ -302,14 +302,12 @@ export default function Home() {
               <h1 className="text-5xl sm:text-6xl font-black text-slate-900 leading-none tracking-tight mb-4">
                 El motor de{' '}
                 <span style={{ color: 'var(--color-accent)' }}>RegexID</span>
-                <span className="block text-slate-400 font-mono text-xl sm:text-2xl mt-3 tracking-wider">
-                  /^[patron]+$/
-                </span>
               </h1>
 
               <p className="text-base text-slate-500 mb-8 leading-relaxed max-w-md mx-auto lg:mx-0">
                 Pega cualquier cadena y el motor ECMAScript la evalua en tiempo real
-                contra los 5 patrones de datos personales de la practica.
+                usando los 5 patrones de datos personales de nuestra herramienta
+                impulsada por IA, computación cuántica y mucho café.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">

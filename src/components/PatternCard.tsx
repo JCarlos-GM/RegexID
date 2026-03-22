@@ -40,7 +40,7 @@ export default function PatternCard({ pattern, result, onLoadExample }: PatternC
         {/* Badge de estado */}
         <div className="shrink-0 mt-1">
           {hayInput && (
-            <span className={`text-xs font-black px-2.5 py-1 rounded-full ${
+            <span className={`text-sm font-black px-4 py-1.5 rounded-full ${
               coincide
                 ? 'bg-green-50 dark:bg-green-950 text-green-600 dark:text-green-400 border border-green-200 dark:border-green-900'
                 : 'bg-slate-100 border border-slate-200'
