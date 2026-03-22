@@ -3,8 +3,9 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { Menu, X, Settings, Moon, Sun, Check } from 'lucide-react';
 
 const IDIOMAS = [
-  { code: 'es', label: 'Español' },
-  { code: 'en', label: 'English' },
+  { code: 'es', label: 'Español',   soon: false },
+  { code: 'en', label: 'English',   soon: true  },
+  { code: 'ar', label: 'العربية',   soon: true  },
 ];
 
 function getInitialTheme(): boolean {
@@ -18,19 +19,21 @@ export default function MainLayout() {
   const [idioma, setIdioma] = useState('es');
   const [menuOpen, setMenuOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const settingsRef = useRef<HTMLDivElement>(null);
+  const settingsRefDesktop = useRef<HTMLDivElement>(null);
+  const settingsRefMobile  = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark);
     localStorage.setItem('regexid-theme', dark ? 'dark' : 'light');
   }, [dark]);
 
-  // Cierra el dropdown si el usuario hace click fuera
+  // Cierra el dropdown si el usuario hace click fuera de ambos contenedores
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (settingsRef.current && !settingsRef.current.contains(e.target as Node)) {
-        setSettingsOpen(false);
-      }
+      const target = e.target as Node;
+      const fueraDesktop = !settingsRefDesktop.current?.contains(target);
+      const fueraMobile  = !settingsRefMobile.current?.contains(target);
+      if (fueraDesktop && fueraMobile) setSettingsOpen(false);
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
@@ -95,7 +98,7 @@ export default function MainLayout() {
             <div className="w-px h-4 bg-slate-200" />
 
             {/* Boton de ajustes con dropdown */}
-            <div className="relative" ref={settingsRef}>
+            <div className="relative" ref={settingsRefDesktop}>
               <button
                 onClick={() => setSettingsOpen((o) => !o)}
                 className={`text-slate-400 hover:text-slate-700 transition-colors ${settingsOpen ? 'text-slate-700' : ''}`}
@@ -138,15 +141,19 @@ export default function MainLayout() {
                   <div className="px-4 py-3">
                     <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">Idioma</p>
                     <div className="flex flex-col gap-1">
-                      {IDIOMAS.map(({ code, label }) => (
+                      {IDIOMAS.map(({ code, label, soon }) => (
                         <button
                           key={code}
-                          onClick={() => setIdioma(code)}
-                          className="flex items-center justify-between px-3 py-2 rounded-lg text-sm font-semibold transition-colors hover:bg-slate-50"
+                          onClick={() => !soon && setIdioma(code)}
+                          disabled={soon}
+                          className="flex items-center justify-between px-3 py-2 rounded-lg text-sm font-semibold transition-colors hover:bg-slate-50 disabled:cursor-default"
                           style={{ color: idioma === code ? 'var(--color-accent)' : '#64748b' }}
                         >
                           {label}
-                          {idioma === code && <Check size={13} style={{ color: 'var(--color-accent)' }} />}
+                          {soon
+                            ? <span className="text-xs font-bold text-slate-300">Próximamente</span>
+                            : idioma === code && <Check size={13} style={{ color: 'var(--color-accent)' }} />
+                          }
                         </button>
                       ))}
                     </div>
@@ -159,7 +166,7 @@ export default function MainLayout() {
 
           {/* Mobile: ajustes + hamburger */}
           <div className="md:hidden flex items-center gap-4">
-            <div className="relative" ref={settingsRef}>
+            <div className="relative" ref={settingsRefMobile}>
               <button
                 onClick={() => setSettingsOpen((o) => !o)}
                 className="text-slate-400 hover:text-slate-700 transition-colors"
@@ -196,15 +203,19 @@ export default function MainLayout() {
                   <div className="px-4 py-3">
                     <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">Idioma</p>
                     <div className="flex flex-col gap-1">
-                      {IDIOMAS.map(({ code, label }) => (
+                      {IDIOMAS.map(({ code, label, soon }) => (
                         <button
                           key={code}
-                          onClick={() => setIdioma(code)}
-                          className="flex items-center justify-between px-3 py-2 rounded-lg text-sm font-semibold transition-colors hover:bg-slate-50"
+                          onClick={() => !soon && setIdioma(code)}
+                          disabled={soon}
+                          className="flex items-center justify-between px-3 py-2 rounded-lg text-sm font-semibold transition-colors hover:bg-slate-50 disabled:cursor-default"
                           style={{ color: idioma === code ? 'var(--color-accent)' : '#64748b' }}
                         >
                           {label}
-                          {idioma === code && <Check size={13} style={{ color: 'var(--color-accent)' }} />}
+                          {soon
+                            ? <span className="text-xs font-bold text-slate-300">Próximamente</span>
+                            : idioma === code && <Check size={13} style={{ color: 'var(--color-accent)' }} />
+                          }
                         </button>
                       ))}
                     </div>
