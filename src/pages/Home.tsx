@@ -1,7 +1,70 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Zap, BookOpen, Layers } from 'lucide-react';
+import { ArrowRight, Zap, BookOpen, Layers, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 import { PATTERNS } from '../core';
+
+// ── Herramientas del desarrollador (carrusel) ─────────────────
+const SUITE = [
+  {
+    id: 'regexid',
+    title: 'RegexID',
+    category: 'Lenguajes y Automatas I',
+    description: 'Validador de datos personales con expresiones regulares. Evalua cadenas contra 5 patrones oficiales en tiempo real.',
+    url: '/',
+    status: 'Activo',
+    isCurrentApp: true,
+    icon: (active: boolean) => (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+        <span style={{ fontFamily: 'monospace', fontSize: active ? 36 : 28, fontWeight: 900, color: 'white', letterSpacing: -1 }}>
+          {'</>'}
+        </span>
+        <span style={{ fontSize: active ? 13 : 10, fontWeight: 900, color: 'rgba(255,255,255,0.7)', letterSpacing: 2 }}>
+          RegexID
+        </span>
+      </div>
+    ),
+  },
+  {
+    id: 'pseudomath',
+    title: 'PseudoHub',
+    category: 'Simulacion Estocastica',
+    description: 'Suite de generacion algoritmica y validacion estadistica para numeros pseudoaleatorios.',
+    url: 'https://pseudo-hub.vercel.app',
+    status: 'Activo',
+    isCurrentApp: false,
+    icon: (active: boolean) => (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+          <span style={{ fontWeight: 900, color: 'white', fontSize: active ? 22 : 16 }}>Pseudo</span>
+          <span style={{ fontWeight: 900, color: 'white', fontSize: active ? 22 : 16, backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 6, padding: '0 6px' }}>hub</span>
+        </div>
+        <span style={{ fontSize: active ? 11 : 9, color: 'rgba(255,255,255,0.6)', letterSpacing: 3, fontWeight: 600 }}>community</span>
+      </div>
+    ),
+  },
+  {
+    id: 'fluxsolver',
+    title: 'FluxSolver',
+    category: 'Metodos Numericos',
+    description: 'Resolucion de sistemas de ecuaciones lineales mediante algoritmos iterativos Jacobi y Gauss-Seidel.',
+    url: 'https://flux-solver.vercel.app',
+    status: 'Estable',
+    isCurrentApp: false,
+    icon: (active: boolean) => (
+      <svg viewBox="0 0 100 100" width={active ? 80 : 60} height={active ? 80 : 60} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M34 18 L24 18 L24 82 L34 82" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M66 18 L76 18 L76 82 L66 82" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+        <text x="38" y="48" fontFamily="Georgia, serif" fontStyle="italic" fontSize="18" fill="white" opacity="0.9">a</text>
+        <text x="54" y="48" fontFamily="Georgia, serif" fontStyle="italic" fontSize="18" fill="white" opacity="0.9">b</text>
+        <text x="38" y="70" fontFamily="Georgia, serif" fontStyle="italic" fontSize="18" fill="white" opacity="0.9">c</text>
+        <text x="54" y="70" fontFamily="Georgia, serif" fontStyle="italic" fontSize="18" fill="white" opacity="0.9">d</text>
+      </svg>
+    ),
+  },
+];
+
+const CARD_SIZE = 152;
+const OFFSET    = 188;
 
 // ── Mini pantallas del validador (se muestran dentro del frame de laptop) ──
 
@@ -214,6 +277,11 @@ const features = [
 // ── Componente principal ───────────────────────────────────────
 export default function Home() {
   const [pantallaActiva, setPantallaActiva] = useState(0);
+  const [toolActiva, setToolActiva] = useState(0);
+
+  const prevTool = () => setToolActiva((i) => Math.max(0, i - 1));
+  const nextTool = () => setToolActiva((i) => Math.min(SUITE.length - 1, i + 1));
+  const tool = SUITE[toolActiva];
 
   return (
     <div>
@@ -344,6 +412,118 @@ export default function Home() {
               Ver anatomia completa de cada patron
               <ArrowRight size={14} />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ---- Carrusel de herramientas ---- */}
+      <section className="border-t border-slate-200">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 py-20 flex flex-col items-center gap-8">
+          <p className="self-start text-xs font-black uppercase tracking-widest text-slate-400">
+            Otras herramientas del desarrollador
+          </p>
+
+          {/* Stage del carrusel */}
+          <div className="flex items-center gap-4 w-full">
+            <button
+              onClick={prevTool}
+              disabled={toolActiva === 0}
+              className="shrink-0 w-9 h-9 flex items-center justify-center border border-slate-300 text-slate-500 hover:border-slate-900 hover:text-slate-900 disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+            >
+              <ChevronLeft size={18} />
+            </button>
+
+            <div className="relative flex-1 overflow-hidden" style={{ height: `${CARD_SIZE + 32}px` }}>
+              {SUITE.map((t, index) => {
+                const offset = index - toolActiva;
+                const isActive = offset === 0;
+                const isVisible = Math.abs(offset) <= 1;
+                const scale = isActive ? 1 : 0.68;
+
+                return (
+                  <div
+                    key={t.id}
+                    className="absolute top-1/2 left-1/2 transition-all duration-300 ease-in-out"
+                    style={{
+                      transform: `translate(calc(-50% + ${offset * OFFSET}px), -50%) scale(${scale})`,
+                      opacity: isVisible ? (isActive ? 1 : 0.5) : 0,
+                      zIndex: isActive ? 10 : 5,
+                      pointerEvents: isVisible ? 'auto' : 'none',
+                    }}
+                  >
+                    <div
+                      onClick={() => setToolActiva(index)}
+                      className="flex items-center justify-center cursor-pointer transition-colors duration-300"
+                      style={{
+                        width: CARD_SIZE,
+                        height: CARD_SIZE,
+                        backgroundColor: isActive ? 'var(--color-accent)' : '#1e293b',
+                      }}
+                    >
+                      {t.icon(isActive)}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <button
+              onClick={nextTool}
+              disabled={toolActiva === SUITE.length - 1}
+              className="shrink-0 w-9 h-9 flex items-center justify-center border border-slate-300 text-slate-500 hover:border-slate-900 hover:text-slate-900 disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+            >
+              <ChevronRight size={18} />
+            </button>
+          </div>
+
+          {/* Info de la herramienta activa */}
+          <div className="text-center max-w-sm transition-all duration-300">
+            <div className="flex items-center justify-center gap-2 mb-1">
+              <p className="text-xs font-black uppercase tracking-widest" style={{ color: 'var(--color-accent)' }}>
+                {tool.category}
+              </p>
+              <span className={`text-xs font-bold uppercase tracking-wider px-1.5 py-0.5 border ${
+                tool.status === 'Activo' || tool.status === 'Estable'
+                  ? 'border-slate-900 text-slate-900'
+                  : 'border-slate-300 text-slate-400'
+              }`}>
+                {tool.status}
+              </span>
+            </div>
+            <h3 className="text-2xl font-black text-slate-900 tracking-tight">{tool.title}</h3>
+            <p className="text-sm text-slate-500 mt-2 leading-relaxed">{tool.description}</p>
+
+            {tool.isCurrentApp ? (
+              <span className="mt-4 inline-flex items-center gap-2 text-xs font-black uppercase tracking-wider text-slate-400">
+                Estas aqui <ArrowRight size={13} />
+              </span>
+            ) : (
+              <a
+                href={tool.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex items-center gap-2 text-xs font-black uppercase tracking-wider text-slate-900 hover:text-red-600 transition-colors"
+              >
+                Abrir aplicacion <ExternalLink size={13} />
+              </a>
+            )}
+          </div>
+
+          {/* Dots */}
+          <div className="flex items-center gap-2">
+            {SUITE.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setToolActiva(i)}
+                className="transition-all duration-300"
+                style={{
+                  width: i === toolActiva ? 20 : 6,
+                  height: 6,
+                  borderRadius: 99,
+                  backgroundColor: i === toolActiva ? 'var(--color-accent)' : '#cbd5e1',
+                }}
+              />
+            ))}
           </div>
         </div>
       </section>

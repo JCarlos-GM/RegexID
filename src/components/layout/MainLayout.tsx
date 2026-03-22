@@ -47,7 +47,7 @@ export default function MainLayout() {
               className="font-mono text-xs font-black text-white px-1.5 py-0.5 tracking-widest"
               style={{ backgroundColor: 'var(--color-accent)' }}
             >
-              \w
+              {'</>'}
             </span>
             <span className="text-base font-black text-slate-900 tracking-tight">
               Regex<span style={{ color: 'var(--color-accent)' }}>ID</span>
@@ -137,7 +137,7 @@ export default function MainLayout() {
               className="font-mono text-xs font-black text-white px-1.5 py-0.5"
               style={{ backgroundColor: 'var(--color-accent)' }}
             >
-              \w
+              {'</>'}
             </span>
             <span className="font-black text-slate-900 text-sm">
               Regex<span style={{ color: 'var(--color-accent)' }}>ID</span>
