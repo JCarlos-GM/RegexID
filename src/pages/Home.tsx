@@ -103,7 +103,7 @@ const PantallaAuto = (
           <span style={{ fontSize: 6, fontWeight: 700, color: '#334155', width: 34 }}>{p.name}</span>
           <div style={{ flex: 1, background: '#f8fafc', borderRadius: 4, height: 8 }} />
           <span style={{ fontSize: 5.5, fontWeight: 900, padding: '1px 4px', borderRadius: 99, background: p.match ? '#f0fdf4' : '#fef2f2', color: p.match ? '#16a34a' : acento }}>
-            {p.match ? '✓ MATCH' : '✗ NO'}
+            {p.match ? 'Válido' : 'No'}
           </span>
         </div>
       ))}
@@ -130,7 +130,7 @@ const PantallaRFC = (
             <div style={{ fontSize: 7, fontWeight: 900, color: '#0f172a' }}>RFC</div>
           </div>
         </div>
-        <span style={{ fontSize: 5.5, fontWeight: 900, color: '#16a34a' }}>✓ MATCH</span>
+        <span style={{ fontSize: 5.5, fontWeight: 900, color: '#16a34a' }}>Válido</span>
       </div>
 
       {/* Regex */}
@@ -264,13 +264,13 @@ const features = [
   },
   {
     icon: Layers,
-    title: '5 patrones oficiales',
+    title: 'Cinco tipos de validadores',
     desc: 'Nombre, Telefono, Correo, RFC y CURP — las expresiones de la practica de la asignatura.',
   },
   {
     icon: BookOpen,
-    title: 'Anatomia detallada',
-    desc: 'Selecciona un patron especifico para ver cada token explicado y el desglose de la cadena.',
+    title: 'Estructura de cada patron detallada',
+    desc: 'Selecciona un patron especifico para ver el desglose de la cadena.',
   },
 ];
 
@@ -387,7 +387,7 @@ export default function Home() {
             <p className="text-xs font-black uppercase tracking-widest mb-3" style={{ color: 'var(--color-accent)' }}>
               Expresiones regulares
             </p>
-            <h2 className="text-3xl font-black text-slate-900">Los 5 patrones de la practica</h2>
+            <h2 className="text-3xl font-black text-slate-900">Los cinco validadores del la herramienta</h2>
           </div>
 
           <div className="flex flex-col divide-y divide-slate-200 border border-slate-200 bg-white dark:bg-slate-100">

@@ -20,10 +20,7 @@ export default function Validator() {
 
   function handleModeChange(id: string) {
     setMode(id);
-    if (id !== 'auto') {
-      const pat = PATTERNS.find((p) => p.id === id);
-      if (pat) setInput(pat.example);
-    }
+    setInput('');
   }
 
   return (

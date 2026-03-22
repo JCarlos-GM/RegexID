@@ -1,4 +1,4 @@
-import { UserIcon, PhoneIcon, EnvelopeIcon, IdentificationCardIcon, IdentificationBadgeIcon, ArrowUpRightIcon, CheckCircleIcon, XCircleIcon, CircleIcon } from '@phosphor-icons/react';
+import { UserIcon, PhoneIcon, EnvelopeIcon, IdentificationCardIcon, IdentificationBadgeIcon, ArrowUpRightIcon } from '@phosphor-icons/react';
 import type { PatternDef, MatchResult } from '../core';
 
 interface PatternCardProps {
@@ -24,24 +24,30 @@ export default function PatternCard({ pattern, result, onLoadExample }: PatternC
     <div className="bg-white dark:bg-slate-100 border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
 
       {/* Encabezado */}
-      <div className="px-7 py-6 flex items-start justify-between gap-4 bg-red-50 border-b-2 border-red-100">
+      <div className="px-7 py-6 flex items-start justify-between gap-4 bg-slate-50 border-b border-slate-200">
         <div className="flex items-start gap-4">
           {/* Icono del patron */}
-          <div className="rounded-2xl p-3 shrink-0 bg-white dark:bg-slate-200 border border-red-100" style={{ color: 'var(--color-accent)' }}>
+          <div className="rounded-2xl p-3 shrink-0 bg-white dark:bg-slate-200 border border-slate-200" style={{ color: 'var(--color-accent)' }}>
             {getIcon(pattern.id)}
           </div>
           <div>
-            <p className="text-xs font-black uppercase tracking-widest mb-0.5 text-red-300">{pattern.id}</p>
+            <p className="text-xs font-black uppercase tracking-widest mb-0.5 text-slate-400">{pattern.id}</p>
             <h2 className="text-xl font-black text-slate-900">{pattern.name}</h2>
             <p className="text-sm text-slate-500 mt-1">{pattern.description}</p>
           </div>
         </div>
 
-        {/* Icono de estado */}
+        {/* Badge de estado */}
         <div className="shrink-0 mt-1">
-          {!hayInput && <CircleIcon size={20} weight="regular" className="text-slate-300" />}
-          {hayInput && coincide && <CheckCircleIcon size={20} weight="fill" className="text-green-500" />}
-          {hayInput && !coincide && <XCircleIcon size={20} weight="fill" style={{ color: 'var(--color-accent)' }} />}
+          {hayInput && (
+            <span className={`text-xs font-black px-2.5 py-1 rounded-full ${
+              coincide
+                ? 'bg-green-50 dark:bg-green-950 text-green-600 dark:text-green-400 border border-green-200 dark:border-green-900'
+                : 'bg-slate-100 border border-slate-200'
+            }`} style={!coincide ? { color: 'var(--color-accent)' } : undefined}>
+              {coincide ? 'Válido' : 'No válido'}
+            </span>
+          )}
         </div>
       </div>
 
@@ -61,7 +67,7 @@ export default function PatternCard({ pattern, result, onLoadExample }: PatternC
         <div className="flex flex-col divide-y divide-slate-100">
           {pattern.parts.map((part, i) => (
             <div key={i} className="flex items-baseline gap-5 py-2.5">
-              <code className="font-mono text-xs px-2 py-0.5 shrink-0 min-w-36 rounded bg-red-50 border border-red-100" style={{ color: 'var(--color-accent)' }}>
+              <code className="font-mono text-xs px-2 py-0.5 shrink-0 min-w-36 rounded bg-slate-100 border border-slate-200" style={{ color: 'var(--color-accent)' }}>
                 {part.token}
               </code>
               <span className="text-sm text-slate-500 leading-snug">{part.label}</span>
@@ -88,11 +94,11 @@ export default function PatternCard({ pattern, result, onLoadExample }: PatternC
               Coincidencia:{' '}
               <code className="font-mono font-black text-slate-800">&quot;{result.value}&quot;</code>
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex divide-x divide-slate-200">
               {pattern.decompose(result.value).map((seg, i) => (
-                <div key={i} className="flex flex-col items-center gap-1 px-4 py-2.5 min-w-16 rounded-xl border border-red-100 bg-red-50">
-                  <span className="font-mono text-lg font-black leading-none" style={{ color: 'var(--color-accent)' }}>{seg.value}</span>
-                  <span className="text-xs font-bold text-center leading-tight uppercase tracking-wide text-red-300">{seg.label}</span>
+                <div key={i} className="flex flex-col items-center px-5 py-1 first:pl-0">
+                  <span className="font-mono text-2xl font-black text-slate-900">{seg.value}</span>
+                  <span className="text-xs text-center text-slate-400 uppercase tracking-wide mt-1">{seg.label}</span>
                 </div>
               ))}
             </div>

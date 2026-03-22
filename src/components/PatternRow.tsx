@@ -31,10 +31,10 @@ export default function PatternRow({ pattern, result, onLoadExample }: PatternRo
   let badgeStyle: React.CSSProperties = {};
 
   if (hayInput && coincide) {
-    badgeTexto = '✓ MATCH';
+    badgeTexto = 'Válido';
     badgeClass = 'bg-green-50 dark:bg-green-950 text-green-600 dark:text-green-400 border border-green-200 dark:border-green-900';
   } else if (hayInput && !coincide) {
-    badgeTexto = '✗ NO MATCH';
+    badgeTexto = 'No válido';
     badgeClass = 'bg-red-50 border border-red-100';
     badgeStyle = { color: 'var(--color-accent)' };
   }
@@ -78,11 +78,11 @@ export default function PatternRow({ pattern, result, onLoadExample }: PatternRo
             <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">
               Desglose de captura
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex divide-x divide-slate-200">
               {pattern.decompose(result.value).map((seg, i) => (
-                <div key={i} className="flex flex-col items-center gap-1 px-4 py-2.5 min-w-14 rounded-xl border border-red-100 bg-red-50">
-                  <span className="font-mono font-black text-sm" style={{ color: 'var(--color-accent)' }}>{seg.value}</span>
-                  <span className="text-xs text-center leading-tight font-medium text-red-300">{seg.label}</span>
+                <div key={i} className="flex flex-col items-center px-5 py-1 first:pl-0">
+                  <span className="font-mono font-black text-lg text-slate-900">{seg.value}</span>
+                  <span className="text-xs text-center text-slate-400 mt-0.5">{seg.label}</span>
                 </div>
               ))}
             </div>

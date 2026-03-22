@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Modo oscuro basado en clase .dark (no en prefers-color-scheme) */
+@variant dark (&:where(.dark, .dark *));
+
 /* ---------------------------------------------------------------
    Tema — variables de color del sistema DeltaCheck
    Hereda la estetica de PseudoMath: slate + acento rojo/naranja

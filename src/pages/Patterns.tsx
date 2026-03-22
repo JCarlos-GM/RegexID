@@ -91,7 +91,7 @@ export default function Patterns() {
                       style={{ borderColor: 'var(--color-match)' }}>
                       <span className="text-xs font-black"
                         style={{ color: 'var(--color-match)' }}>
-                        MATCH
+                        Válido
                       </span>
                       <code className="font-mono text-sm text-slate-700">{p.example}</code>
                     </div>
