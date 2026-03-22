@@ -1,6 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { Moon, Sun, Menu, X } from 'lucide-react';
+import { Menu, X, Settings, Moon, Sun, Check } from 'lucide-react';
+
+const IDIOMAS = [
+  { code: 'es', label: 'Español' },
+  { code: 'en', label: 'English' },
+];
 
 function getInitialTheme(): boolean {
   const saved = localStorage.getItem('regexid-theme');
@@ -10,24 +15,37 @@ function getInitialTheme(): boolean {
 
 export default function MainLayout() {
   const [dark, setDark] = useState(getInitialTheme);
+  const [idioma, setIdioma] = useState('es');
   const [menuOpen, setMenuOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const settingsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark);
     localStorage.setItem('regexid-theme', dark ? 'dark' : 'light');
   }, [dark]);
 
+  // Cierra el dropdown si el usuario hace click fuera
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (settingsRef.current && !settingsRef.current.contains(e.target as Node)) {
+        setSettingsOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const navLinks = [
     { to: '/', label: 'Inicio', end: true },
     { to: '/validar', label: 'Validador' },
     { to: '/patrones', label: 'Patrones' },
+    { to: '/acerca', label: 'Acerca de' },
   ];
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `relative text-sm font-bold tracking-wide transition-colors duration-150 pb-0.5 ${
-      isActive
-        ? 'text-slate-900'
-        : 'text-slate-400 hover:text-slate-700'
+      isActive ? 'text-slate-900' : 'text-slate-400 hover:text-slate-700'
     }`;
 
   return (
@@ -36,13 +54,13 @@ export default function MainLayout() {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white border-b border-slate-200">
 
-        {/* Franja de acento en la parte superior */}
+        {/* Franja de acento */}
         <div className="h-0.5 w-full" style={{ backgroundColor: 'var(--color-accent)' }} />
 
         <div className="max-w-7xl mx-auto px-6 lg:px-8 h-14 flex items-center justify-between">
 
           {/* Logo */}
-          <NavLink to="/" className="flex items-center gap-2.5 shrink-0 group">
+          <NavLink to="/" className="flex items-center gap-2.5 shrink-0">
             <span
               className="font-mono text-xs font-black text-white px-1.5 py-0.5 tracking-widest"
               style={{ backgroundColor: 'var(--color-accent)' }}
@@ -54,7 +72,7 @@ export default function MainLayout() {
             </span>
           </NavLink>
 
-          {/* Nav desktop — a la derecha, asimétrica */}
+          {/* Nav desktop */}
           <div className="hidden md:flex items-center gap-6">
             <nav className="flex items-center gap-6">
               {navLinks.map(({ to, label, end }) => (
@@ -62,7 +80,6 @@ export default function MainLayout() {
                   {({ isActive }) => (
                     <>
                       {label}
-                      {/* Indicador de ruta activa — linea fina bajo el texto */}
                       {isActive && (
                         <span
                           className="absolute -bottom-px left-0 right-0 h-px"
@@ -75,28 +92,127 @@ export default function MainLayout() {
               ))}
             </nav>
 
-            {/* Divisor */}
             <div className="w-px h-4 bg-slate-200" />
 
-            {/* Toggle de tema — solo icono, sin caja */}
-            <button
-              onClick={() => setDark((d) => !d)}
-              className="text-slate-400 hover:text-slate-700 transition-colors"
-              aria-label="Cambiar tema"
-            >
-              {dark ? <Sun size={16} /> : <Moon size={16} />}
-            </button>
+            {/* Boton de ajustes con dropdown */}
+            <div className="relative" ref={settingsRef}>
+              <button
+                onClick={() => setSettingsOpen((o) => !o)}
+                className={`text-slate-400 hover:text-slate-700 transition-colors ${settingsOpen ? 'text-slate-700' : ''}`}
+                aria-label="Ajustes"
+              >
+                <Settings size={16} />
+              </button>
+
+              {/* Dropdown */}
+              {settingsOpen && (
+                <div className="absolute right-0 top-8 w-56 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-50">
+
+                  {/* Modo oscuro */}
+                  <div className="px-4 py-3 border-b border-slate-100">
+                    <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">Apariencia</p>
+                    <button
+                      onClick={() => setDark((d) => !d)}
+                      className="w-full flex items-center justify-between gap-3 group"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        {dark ? <Moon size={14} className="text-slate-500" /> : <Sun size={14} className="text-slate-500" />}
+                        <span className="text-sm font-semibold text-slate-700">
+                          {dark ? 'Modo oscuro' : 'Modo claro'}
+                        </span>
+                      </div>
+                      {/* Toggle pill */}
+                      <div
+                        className="w-9 h-5 rounded-full transition-colors duration-200 flex items-center px-0.5"
+                        style={{ backgroundColor: dark ? 'var(--color-accent)' : '#e2e8f0' }}
+                      >
+                        <div
+                          className="w-4 h-4 bg-white rounded-full shadow transition-transform duration-200"
+                          style={{ transform: dark ? 'translateX(16px)' : 'translateX(0)' }}
+                        />
+                      </div>
+                    </button>
+                  </div>
+
+                  {/* Idioma */}
+                  <div className="px-4 py-3">
+                    <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">Idioma</p>
+                    <div className="flex flex-col gap-1">
+                      {IDIOMAS.map(({ code, label }) => (
+                        <button
+                          key={code}
+                          onClick={() => setIdioma(code)}
+                          className="flex items-center justify-between px-3 py-2 rounded-lg text-sm font-semibold transition-colors hover:bg-slate-50"
+                          style={{ color: idioma === code ? 'var(--color-accent)' : '#64748b' }}
+                        >
+                          {label}
+                          {idioma === code && <Check size={13} style={{ color: 'var(--color-accent)' }} />}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* Mobile: toggle + hamburger */}
+          {/* Mobile: ajustes + hamburger */}
           <div className="md:hidden flex items-center gap-4">
-            <button
-              onClick={() => setDark((d) => !d)}
-              className="text-slate-400 hover:text-slate-700 transition-colors"
-              aria-label="Cambiar tema"
-            >
-              {dark ? <Sun size={16} /> : <Moon size={16} />}
-            </button>
+            <div className="relative" ref={settingsRef}>
+              <button
+                onClick={() => setSettingsOpen((o) => !o)}
+                className="text-slate-400 hover:text-slate-700 transition-colors"
+                aria-label="Ajustes"
+              >
+                <Settings size={16} />
+              </button>
+
+              {settingsOpen && (
+                <div className="absolute right-0 top-8 w-56 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-50">
+                  <div className="px-4 py-3 border-b border-slate-100">
+                    <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">Apariencia</p>
+                    <button
+                      onClick={() => setDark((d) => !d)}
+                      className="w-full flex items-center justify-between gap-3"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        {dark ? <Moon size={14} className="text-slate-500" /> : <Sun size={14} className="text-slate-500" />}
+                        <span className="text-sm font-semibold text-slate-700">
+                          {dark ? 'Modo oscuro' : 'Modo claro'}
+                        </span>
+                      </div>
+                      <div
+                        className="w-9 h-5 rounded-full transition-colors duration-200 flex items-center px-0.5"
+                        style={{ backgroundColor: dark ? 'var(--color-accent)' : '#e2e8f0' }}
+                      >
+                        <div
+                          className="w-4 h-4 bg-white rounded-full shadow transition-transform duration-200"
+                          style={{ transform: dark ? 'translateX(16px)' : 'translateX(0)' }}
+                        />
+                      </div>
+                    </button>
+                  </div>
+                  <div className="px-4 py-3">
+                    <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">Idioma</p>
+                    <div className="flex flex-col gap-1">
+                      {IDIOMAS.map(({ code, label }) => (
+                        <button
+                          key={code}
+                          onClick={() => setIdioma(code)}
+                          className="flex items-center justify-between px-3 py-2 rounded-lg text-sm font-semibold transition-colors hover:bg-slate-50"
+                          style={{ color: idioma === code ? 'var(--color-accent)' : '#64748b' }}
+                        >
+                          {label}
+                          {idioma === code && <Check size={13} style={{ color: 'var(--color-accent)' }} />}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
             <button
               onClick={() => setMenuOpen((o) => !o)}
               className="text-slate-500 hover:text-slate-800 transition-colors"
@@ -133,10 +249,7 @@ export default function MainLayout() {
       <footer className="border-t border-slate-200 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span
-              className="font-mono text-xs font-black text-white px-1.5 py-0.5"
-              style={{ backgroundColor: 'var(--color-accent)' }}
-            >
+            <span className="font-mono text-xs font-black text-white px-1.5 py-0.5" style={{ backgroundColor: 'var(--color-accent)' }}>
               {'</>'}
             </span>
             <span className="font-black text-slate-900 text-sm">
