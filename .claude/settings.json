@@ -4,7 +4,10 @@
       "Bash(npx tsc:*)",
       "Bash(npm run:*)",
       "Read(//e/PseudoMath/**)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(node -e \"const p = require\\(''@phosphor-icons/react''\\); console.log\\(Object.keys\\(p\\).filter\\(k => k.includes\\(''Check''\\) || k.includes\\(''Search''\\) || k.includes\\(''Close''\\) || k.includes\\(''XCircle''\\)\\).slice\\(0,20\\)\\)\")",
+      "Bash(node -e \"const p = require\\(''@phosphor-icons/react''\\); const keys = Object.keys\\(p\\); console.log\\(keys.filter\\(k => /check/i.test\\(k\\)\\).slice\\(0,10\\)\\); console.log\\(keys.filter\\(k => /magnify|search|glass/i.test\\(k\\)\\).slice\\(0,10\\)\\); console.log\\(keys.filter\\(k => /^X[A-Z]|^X$/.test\\(k\\)\\).slice\\(0,10\\)\\);\")",
+      "Bash(grep -o deprecated.* node_modules/@phosphor-icons/react/dist/csr/User.d.ts node_modules/@phosphor-icons/react/dist/csr/Lightning.d.ts node_modules/@phosphor-icons/react/dist/csr/ArrowUpRight.d.ts)"
     ],
     "additionalDirectories": [
       "e:\\RegexID\\src"

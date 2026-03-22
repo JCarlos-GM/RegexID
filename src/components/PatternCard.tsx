@@ -1,3 +1,4 @@
+import { UserIcon, PhoneIcon, EnvelopeIcon, IdentificationCardIcon, IdentificationBadgeIcon, ArrowUpRightIcon, CheckCircleIcon, XCircleIcon, CircleIcon } from '@phosphor-icons/react';
 import type { PatternDef, MatchResult } from '../core';
 
 interface PatternCardProps {
@@ -6,90 +7,92 @@ interface PatternCardProps {
   onLoadExample: () => void;
 }
 
-// Tarjeta de detalle para cuando el usuario elige un patron especifico
+function getIcon(id: string, size = 22) {
+  if (id === 'nombre')   return <UserIcon size={size} weight="duotone" />;
+  if (id === 'telefono') return <PhoneIcon size={size} weight="duotone" />;
+  if (id === 'correo')   return <EnvelopeIcon size={size} weight="duotone" />;
+  if (id === 'rfc')      return <IdentificationCardIcon size={size} weight="duotone" />;
+  if (id === 'curp')     return <IdentificationBadgeIcon size={size} weight="duotone" />;
+  return null;
+}
+
 export default function PatternCard({ pattern, result, onLoadExample }: PatternCardProps) {
   const hayInput = result !== null;
   const coincide = result?.matched ?? false;
 
-  // Color del estado en el header
-  let estadoTexto = '◯ IDLE';
-  let estadoColor = '#94a3b8';
-
-  if (hayInput && coincide) {
-    estadoTexto = '✓ MATCH';
-    estadoColor = '#16a34a';
-  } else if (hayInput && !coincide) {
-    estadoTexto = '✗ NO MATCH';
-    estadoColor = '#dc2626';
-  }
-
   return (
-    <div className="border border-slate-200 bg-white rounded-2xl overflow-hidden">
+    <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
 
-      {/* Encabezado: nombre del patron y estado actual */}
-      <div className="flex items-start justify-between gap-4 px-7 py-6 border-b border-slate-100">
-        <div>
-          <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-1">{pattern.id}</p>
-          <h2 className="text-xl font-black text-slate-900">{pattern.name}</h2>
-          <p className="text-sm text-slate-500 mt-1">{pattern.description}</p>
+      {/* Encabezado */}
+      <div className="px-7 py-6 flex items-start justify-between gap-4 bg-red-50 border-b-2 border-red-100">
+        <div className="flex items-start gap-4">
+          {/* Icono del patron */}
+          <div className="rounded-2xl p-3 shrink-0 bg-white border border-red-100" style={{ color: 'var(--color-accent)' }}>
+            {getIcon(pattern.id)}
+          </div>
+          <div>
+            <p className="text-xs font-black uppercase tracking-widest mb-0.5 text-red-300">{pattern.id}</p>
+            <h2 className="text-xl font-black text-slate-900">{pattern.name}</h2>
+            <p className="text-sm text-slate-500 mt-1">{pattern.description}</p>
+          </div>
         </div>
-        <span className="text-sm font-black uppercase tracking-wider shrink-0 mt-1" style={{ color: estadoColor }}>
-          {estadoTexto}
-        </span>
+
+        {/* Icono de estado */}
+        <div className="shrink-0 mt-1">
+          {!hayInput && <CircleIcon size={20} weight="regular" className="text-slate-300" />}
+          {hayInput && coincide && <CheckCircleIcon size={20} weight="fill" className="text-green-500" />}
+          {hayInput && !coincide && <XCircleIcon size={20} weight="fill" style={{ color: 'var(--color-accent)' }} />}
+        </div>
       </div>
 
-      {/* La expresion regular del patron */}
+      {/* Expresion regular */}
       <div className="px-7 py-5 border-b border-slate-100 bg-slate-50">
         <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Expresion regular</p>
-        <div className="font-mono text-base overflow-x-auto">
+        <div className="font-mono text-sm overflow-x-auto whitespace-nowrap">
           <span className="text-slate-400">/</span>
-          <span className="text-purple-700 font-semibold">{pattern.regex.source}</span>
+          <span className="font-semibold" style={{ color: 'var(--color-accent)' }}>{pattern.regex.source}</span>
           <span className="text-slate-400">/</span>
         </div>
       </div>
 
-      {/* Anatomia: que significa cada parte de la regex */}
+      {/* Anatomia: que significa cada token */}
       <div className="px-7 py-5 border-b border-slate-100">
         <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">Anatomia del patron</p>
         <div className="flex flex-col divide-y divide-slate-100">
           {pattern.parts.map((part, i) => (
             <div key={i} className="flex items-baseline gap-5 py-2.5">
-              <code className="font-mono text-sm text-purple-700 bg-slate-50 border border-slate-200 px-2 py-0.5 shrink-0 min-w-36">
+              <code className="font-mono text-xs px-2 py-0.5 shrink-0 min-w-36 rounded bg-red-50 border border-red-100" style={{ color: 'var(--color-accent)' }}>
                 {part.token}
               </code>
-              <span className="text-sm text-slate-600 leading-snug">{part.label}</span>
+              <span className="text-sm text-slate-500 leading-snug">{part.label}</span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Resultado de evaluar la cadena ingresada */}
+      {/* Resultado de evaluar la cadena */}
       <div className="px-7 py-5 border-b border-slate-100">
         <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">Resultado</p>
 
-        {/* Sin input todavia */}
         {!hayInput && (
-          <p className="text-sm text-slate-400">Escribe una cadena en el campo de arriba para evaluar.</p>
+          <p className="text-sm text-slate-400">Escribe una cadena arriba para evaluar.</p>
         )}
 
-        {/* Input ingresado pero no coincide */}
         {hayInput && !coincide && (
-          <p className="text-sm font-mono text-red-500">La cadena no coincide con el patron.</p>
+          <p className="text-sm font-mono" style={{ color: 'var(--color-accent)' }}>La cadena no coincide con el patron.</p>
         )}
 
-        {/* Input ingresado y coincide — muestra el desglose */}
         {hayInput && coincide && result && (
           <div>
             <p className="text-sm text-slate-500 mb-4">
-              Coincidencia encontrada:{' '}
+              Coincidencia:{' '}
               <code className="font-mono font-black text-slate-800">&quot;{result.value}&quot;</code>
             </p>
-
             <div className="flex flex-wrap gap-3">
               {pattern.decompose(result.value).map((seg, i) => (
-                <div key={i} className="flex flex-col items-center gap-1 border border-green-200 bg-green-50 px-4 py-2.5 min-w-16 rounded-xl">
-                  <span className="font-mono text-lg font-black leading-none text-green-700">{seg.value}</span>
-                  <span className="text-xs font-bold text-center leading-tight text-green-600 uppercase tracking-wide">{seg.label}</span>
+                <div key={i} className="flex flex-col items-center gap-1 px-4 py-2.5 min-w-16 rounded-xl border border-red-100 bg-red-50">
+                  <span className="font-mono text-lg font-black leading-none" style={{ color: 'var(--color-accent)' }}>{seg.value}</span>
+                  <span className="text-xs font-bold text-center leading-tight uppercase tracking-wide text-red-300">{seg.label}</span>
                 </div>
               ))}
             </div>
@@ -97,16 +100,16 @@ export default function PatternCard({ pattern, result, onLoadExample }: PatternC
         )}
       </div>
 
-      {/* Boton para cargar un ejemplo valido */}
+      {/* Footer: boton de ejemplo */}
       <button
         onClick={onLoadExample}
-        className="w-full flex items-center justify-between gap-4 px-7 py-4 text-left hover:bg-slate-50 transition-colors"
+        className="w-full flex items-center justify-between gap-4 px-7 py-4 text-left hover:bg-slate-50 transition-colors group"
       >
         <div className="flex items-baseline gap-3">
           <span className="text-xs font-black uppercase tracking-widest text-slate-400">Ejemplo valido</span>
           <code className="font-mono text-sm text-slate-700">{pattern.example}</code>
         </div>
-        <span className="text-slate-300 hover:text-slate-500">↗</span>
+        <ArrowUpRightIcon size={14} className="text-slate-300 group-hover:text-slate-600 shrink-0 transition-colors" />
       </button>
     </div>
   );

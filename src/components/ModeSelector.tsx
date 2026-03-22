@@ -1,4 +1,4 @@
-import { Zap } from 'lucide-react';
+import { LightningIcon, UserIcon, PhoneIcon, EnvelopeIcon, IdentificationCardIcon, IdentificationBadgeIcon } from '@phosphor-icons/react';
 import type { PatternDef } from '../core';
 
 interface ModeSelectorProps {
@@ -7,8 +7,17 @@ interface ModeSelectorProps {
   onChange: (id: string) => void;
 }
 
+function getIcon(id: string, size = 14) {
+  if (id === 'auto')     return <LightningIcon size={size} weight="fill" />;
+  if (id === 'nombre')   return <UserIcon size={size} weight="bold" />;
+  if (id === 'telefono') return <PhoneIcon size={size} weight="bold" />;
+  if (id === 'correo')   return <EnvelopeIcon size={size} weight="bold" />;
+  if (id === 'rfc')      return <IdentificationCardIcon size={size} weight="bold" />;
+  if (id === 'curp')     return <IdentificationBadgeIcon size={size} weight="bold" />;
+  return null;
+}
+
 export default function ModeSelector({ patterns, activeId, onChange }: ModeSelectorProps) {
-  // Primera opcion siempre es AUTO, luego un tab por cada patron
   const tabs = [
     { id: 'auto', label: 'AUTO' },
     ...patterns.map((p) => ({ id: p.id, label: p.name })),
@@ -21,17 +30,16 @@ export default function ModeSelector({ patterns, activeId, onChange }: ModeSelec
     >
       {tabs.map(({ id, label }) => {
         const estaActivo = activeId === id;
-        const esAuto = id === 'auto';
 
         if (estaActivo) {
           return (
             <button
               key={id}
               onClick={() => onChange(id)}
-              className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-white transition-all"
+              className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-white transition-all shrink-0"
               style={{ backgroundColor: 'var(--color-accent)' }}
             >
-              {esAuto && <Zap size={11} fill="currentColor" />}
+              {getIcon(id, 12)}
               {label}
             </button>
           );
@@ -41,8 +49,9 @@ export default function ModeSelector({ patterns, activeId, onChange }: ModeSelec
           <button
             key={id}
             onClick={() => onChange(id)}
-            className="px-4 py-1.5 rounded-full text-xs font-semibold text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors tracking-wide"
+            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors tracking-wide shrink-0"
           >
+            {getIcon(id, 12)}
             {label}
           </button>
         );

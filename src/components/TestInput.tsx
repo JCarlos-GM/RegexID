@@ -1,4 +1,4 @@
-import { X, CheckCircle } from 'lucide-react';
+import { XIcon, CheckCircleIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
 
 interface TestInputProps {
   value: string;
@@ -6,19 +6,26 @@ interface TestInputProps {
   matchCount: number;
   total: number;
   modeName?: string;
+  modeColor?: string;
 }
 
-export default function TestInput({ value, onChange, matchCount, total, modeName }: TestInputProps) {
+export default function TestInput({ value, onChange, matchCount, total, modeName, modeColor }: TestInputProps) {
   const hayTexto = value.length > 0;
   const hayCoincidencias = hayTexto && matchCount > 0;
+  const colorActivo = modeColor ?? '#dc2626';
 
   return (
     <div className="space-y-3">
       <p className="text-xs font-black uppercase tracking-widest text-slate-400 px-1">Cadena a evaluar</p>
 
       {/* Caja del input */}
-      <div className="bg-white border border-slate-200 rounded-2xl px-6 py-5 shadow-sm">
+      <div className="bg-white border border-slate-200 rounded-2xl px-5 py-4 shadow-sm transition-all"
+        style={{ borderColor: hayTexto ? `${colorActivo}55` : '' }}
+      >
         <div className="flex items-center gap-3">
+          {/* Icono de lupa */}
+          <MagnifyingGlassIcon size={20} weight="bold" className="shrink-0 text-slate-300" />
+
           <input
             type="text"
             value={value}
@@ -26,16 +33,17 @@ export default function TestInput({ value, onChange, matchCount, total, modeName
             placeholder="Escribe o pega la cadena..."
             spellCheck={false}
             autoComplete="off"
-            className="flex-1 min-w-0 font-mono text-xl sm:text-3xl font-semibold text-slate-900 bg-transparent outline-none placeholder:text-slate-300 placeholder:font-normal"
+            className="flex-1 min-w-0 font-mono text-xl sm:text-2xl font-semibold text-slate-900 bg-transparent outline-none placeholder:text-slate-300 placeholder:font-normal"
           />
-          {/* Boton para limpiar el input */}
+
+          {/* Boton limpiar */}
           {hayTexto && (
             <button
               onClick={() => onChange('')}
               className="shrink-0 text-slate-300 hover:text-slate-500 transition-colors"
               aria-label="Limpiar"
             >
-              <X size={18} />
+              <XIcon size={18} />
             </button>
           )}
         </div>
@@ -48,10 +56,10 @@ export default function TestInput({ value, onChange, matchCount, total, modeName
         {hayTexto ? (
           <span
             className="text-xs font-semibold flex items-center gap-1.5"
-            style={{ color: hayCoincidencias ? '#16a34a' : '#dc2626' }}
+            style={{ color: hayCoincidencias ? colorActivo : '#ef4444' }}
           >
-            <CheckCircle size={13} />
-            {matchCount} coincidencia{matchCount !== 1 ? 's' : ''} en modo {modeName ?? 'AUTO'}
+            <CheckCircleIcon size={13} weight="fill" />
+            {matchCount} coincidencia{matchCount !== 1 ? 's' : ''} · modo {modeName ?? 'AUTO'}
           </span>
         ) : (
           <span className="text-xs text-slate-400">{total} expresiones activas</span>
