@@ -161,7 +161,7 @@ const PantallaRFC = (
   </div>
 );
 
-// Pantalla 3: modo CURP — anatomia del patron
+// Pantalla 3: modo CURP — Estructura del patron
 const PantallaCURP = (
   <div style={{ ...S, width: '100%', height: '100%', background: '#f8fafc', padding: 10, overflow: 'hidden', fontFamily: 'sans-serif' }}>
     <div style={{ background: 'white', border: '1px solid #e2e8f0', borderRadius: 8, overflow: 'hidden' }}>
@@ -178,7 +178,7 @@ const PantallaCURP = (
 
       {/* Tokens de anatomia */}
       <div style={{ padding: '4px 8px' }}>
-        <div style={{ fontSize: 4, color: '#94a3b8', fontWeight: 900, letterSpacing: 1, marginBottom: 4 }}>ANATOMIA DEL PATRON</div>
+        <div style={{ fontSize: 4, color: '#94a3b8', fontWeight: 900, letterSpacing: 1, marginBottom: 4 }}>Estructura del patron</div>
         {[
           { token: '[A-Z]{4}',   label: '4 letras del nombre' },
           { token: '\\d{6}',     label: 'Fecha AAMMDD'       },

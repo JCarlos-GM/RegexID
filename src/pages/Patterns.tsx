@@ -64,7 +64,7 @@ export default function Patterns() {
                   {/* Anatomia token a token */}
                   <div className="mb-6">
                     <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">
-                      Anatomia del patron
+                      Estructura del patron
                     </p>
                     <div className="flex flex-col gap-2">
                       {p.parts.map((part, i) => (

@@ -63,7 +63,7 @@ export default function PatternCard({ pattern, result, onLoadExample }: PatternC
 
       {/* Anatomia: que significa cada token */}
       <div className="px-7 py-5 border-b border-slate-100">
-        <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">Anatomia del patron</p>
+        <p className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">Estructura del patron</p>
         <div className="flex flex-col divide-y divide-slate-100">
           {pattern.parts.map((part, i) => (
             <div key={i} className="flex items-baseline gap-5 py-2.5">
