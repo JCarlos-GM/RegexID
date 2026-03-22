@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { PATTERNS, testPattern } from '../core';
 import TestInput from '../components/TestInput';
 import ModeSelector from '../components/ModeSelector';
+import PatternRow from '../components/PatternRow';
 import PatternCard from '../components/PatternCard';
 
 export default function Validator() {
@@ -24,40 +25,42 @@ export default function Validator() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col gap-6">
-      {/* Titulo de seccion */}
-      <div className="pb-4 border-b border-slate-200">
-        <h1 className="text-2xl font-black text-slate-900">Validador</h1>
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col gap-0">
+
+      {/* Titulo */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-black text-slate-900 tracking-tight">Validador</h1>
         <p className="text-sm text-slate-500 mt-1">
           Motor ECMAScript RegExp &mdash; evaluacion en tiempo real
         </p>
       </div>
 
-      {/* Selector de modo */}
+      {/* Tabs de modo */}
       <ModeSelector patterns={PATTERNS} activeId={mode} onChange={handleModeChange} />
 
-      {/* Campo de entrada */}
-      <TestInput
-        value={input}
-        onChange={setInput}
-        matchCount={mode === 'auto' ? matchCount : activeResult?.matched ? 1 : 0}
-        total={mode === 'auto' ? PATTERNS.length : 1}
-      />
+      {/* Input prominente */}
+      <div className="mt-8 mb-8">
+        <TestInput
+          value={input}
+          onChange={setInput}
+          matchCount={mode === 'auto' ? matchCount : activeResult?.matched ? 1 : 0}
+          total={mode === 'auto' ? PATTERNS.length : 1}
+        />
+      </div>
 
-      {/* Vista AUTO — grid de 5 tarjetas */}
+      {/* ── Modo AUTO: lista vertical de patrones ── */}
       {mode === 'auto' && (
         <div>
-          <div className="flex items-center justify-between mb-4">
-            <p className="text-xs font-black uppercase tracking-widest text-slate-600">
-              Patrones activos
+          <div className="flex items-center justify-between mb-3 px-1">
+            <p className="text-xs font-black uppercase tracking-widest text-slate-500">
+              Resultados
             </p>
-            <span className="text-xs font-mono text-slate-500">
-              {PATTERNS.length} expresiones regulares
-            </span>
+            <p className="text-xs font-mono text-slate-400">5 expresiones</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+          <div className="border border-slate-200 bg-white divide-y divide-slate-100">
             {PATTERNS.map((pattern, i) => (
-              <PatternCard
+              <PatternRow
                 key={pattern.id}
                 pattern={pattern}
                 result={allResults ? allResults[i] : null}
@@ -68,18 +71,13 @@ export default function Validator() {
         </div>
       )}
 
-      {/* Vista ESPECIFICA — tarjeta expandida centrada */}
+      {/* ── Modo ESPECIFICO: panel de detalle centrado ── */}
       {mode !== 'auto' && activePattern && (
-        <div className="flex justify-center">
-          <div className="w-full max-w-2xl">
-            <PatternCard
-              pattern={activePattern}
-              result={activeResult}
-              onLoadExample={() => setInput(activePattern.example)}
-              focused
-            />
-          </div>
-        </div>
+        <PatternCard
+          pattern={activePattern}
+          result={activeResult}
+          onLoadExample={() => setInput(activePattern.example)}
+        />
       )}
     </div>
   );

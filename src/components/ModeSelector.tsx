@@ -6,36 +6,29 @@ interface ModeSelectorProps {
   onChange: (id: string) => void;
 }
 
+// Tabs horizontales — estilo minimalista con indicador de linea inferior
 export default function ModeSelector({ patterns, activeId, onChange }: ModeSelectorProps) {
-  const btnBase =
-    'px-3 py-1.5 text-xs font-black uppercase tracking-wider border transition-colors duration-150 cursor-pointer';
-  const btnActive =
-    'text-white border-transparent';
-  const btnIdle =
-    'text-slate-500 border-slate-200 bg-white hover:bg-slate-100 hover:text-slate-800';
+  const tabs = [{ id: 'auto', label: 'Auto' }, ...patterns.map((p) => ({ id: p.id, label: p.name }))];
 
   return (
-    <div className="flex items-center gap-3 flex-wrap">
-      <span className="text-xs font-black uppercase tracking-widest text-slate-600">Modo</span>
-      <div className="flex flex-wrap gap-1.5">
-        <button
-          className={`${btnBase} ${activeId === 'auto' ? btnActive : btnIdle}`}
-          style={activeId === 'auto' ? { backgroundColor: 'var(--color-accent)' } : {}}
-          onClick={() => onChange('auto')}
-        >
-          Auto
-        </button>
-        {patterns.map((p) => (
+    <div className="flex items-end gap-0 border-b border-slate-200 overflow-x-auto">
+      {tabs.map(({ id, label }) => {
+        const active = activeId === id;
+        return (
           <button
-            key={p.id}
-            className={`${btnBase} ${activeId === p.id ? btnActive : btnIdle}`}
-            style={activeId === p.id ? { backgroundColor: 'var(--color-accent)' } : {}}
-            onClick={() => onChange(p.id)}
+            key={id}
+            onClick={() => onChange(id)}
+            className={`px-5 py-3 text-xs font-black uppercase tracking-widest border-b-2 -mb-px transition-colors duration-150 whitespace-nowrap ${
+              active
+                ? 'text-slate-900 border-current'
+                : 'text-slate-400 border-transparent hover:text-slate-600 hover:border-slate-300'
+            }`}
+            style={active ? { borderColor: 'var(--color-accent)', color: 'var(--color-accent)' } : {}}
           >
-            {p.name}
+            {label}
           </button>
-        ))}
-      </div>
+        );
+      })}
     </div>
   );
 }

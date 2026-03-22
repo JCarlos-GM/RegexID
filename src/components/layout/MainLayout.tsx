@@ -8,23 +8,6 @@ function getInitialTheme(): boolean {
   return window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 
-// Logo: icono con token regex \w + nombre RegexID
-function Logo() {
-  return (
-    <NavLink to="/" className="flex items-center gap-2 shrink-0">
-      <span
-        className="w-8 h-8 flex items-center justify-center font-mono text-xs font-black text-white"
-        style={{ backgroundColor: 'var(--color-accent)' }}
-      >
-        \w
-      </span>
-      <span className="text-lg font-black text-slate-900 tracking-tight leading-none">
-        Regex<span style={{ color: 'var(--color-accent)' }}>ID</span>
-      </span>
-    </NavLink>
-  );
-}
-
 export default function MainLayout() {
   const [dark, setDark] = useState(getInitialTheme);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -41,52 +24,98 @@ export default function MainLayout() {
   ];
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
-    `text-sm font-black uppercase tracking-wider px-3 py-1 border-b-2 transition-colors duration-200 ${
+    `relative text-sm font-bold tracking-wide transition-colors duration-150 pb-0.5 ${
       isActive
-        ? 'border-accent text-accent bg-accent-muted'
-        : 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-slate-100'
+        ? 'text-slate-900'
+        : 'text-slate-400 hover:text-slate-700'
     }`;
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-          <Logo />
 
-          <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center gap-1">
-            {navLinks.map(({ to, label, end }) => (
-              <NavLink key={to} to={to} end={end} className={linkClass}>
-                {label}
-              </NavLink>
-            ))}
-          </nav>
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-white border-b border-slate-200">
 
-          <div className="flex items-center gap-2 shrink-0">
+        {/* Franja de acento en la parte superior */}
+        <div className="h-0.5 w-full" style={{ backgroundColor: 'var(--color-accent)' }} />
+
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 h-14 flex items-center justify-between">
+
+          {/* Logo */}
+          <NavLink to="/" className="flex items-center gap-2.5 shrink-0 group">
+            <span
+              className="font-mono text-xs font-black text-white px-1.5 py-0.5 tracking-widest"
+              style={{ backgroundColor: 'var(--color-accent)' }}
+            >
+              \w
+            </span>
+            <span className="text-base font-black text-slate-900 tracking-tight">
+              Regex<span style={{ color: 'var(--color-accent)' }}>ID</span>
+            </span>
+          </NavLink>
+
+          {/* Nav desktop — a la derecha, asimétrica */}
+          <div className="hidden md:flex items-center gap-6">
+            <nav className="flex items-center gap-6">
+              {navLinks.map(({ to, label, end }) => (
+                <NavLink key={to} to={to} end={end} className={linkClass}>
+                  {({ isActive }) => (
+                    <>
+                      {label}
+                      {/* Indicador de ruta activa — linea fina bajo el texto */}
+                      {isActive && (
+                        <span
+                          className="absolute -bottom-px left-0 right-0 h-px"
+                          style={{ backgroundColor: 'var(--color-accent)' }}
+                        />
+                      )}
+                    </>
+                  )}
+                </NavLink>
+              ))}
+            </nav>
+
+            {/* Divisor */}
+            <div className="w-px h-4 bg-slate-200" />
+
+            {/* Toggle de tema — solo icono, sin caja */}
             <button
               onClick={() => setDark((d) => !d)}
-              className="w-9 h-9 flex items-center justify-center border border-slate-200 hover:bg-slate-100 transition-colors"
+              className="text-slate-400 hover:text-slate-700 transition-colors"
               aria-label="Cambiar tema"
             >
-              {dark
-                ? <Sun size={15} className="text-slate-600" />
-                : <Moon size={15} className="text-slate-600" />}
+              {dark ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+          </div>
+
+          {/* Mobile: toggle + hamburger */}
+          <div className="md:hidden flex items-center gap-4">
+            <button
+              onClick={() => setDark((d) => !d)}
+              className="text-slate-400 hover:text-slate-700 transition-colors"
+              aria-label="Cambiar tema"
+            >
+              {dark ? <Sun size={16} /> : <Moon size={16} />}
             </button>
             <button
-              className="md:hidden w-9 h-9 flex items-center justify-center border border-slate-200 hover:bg-slate-100 transition-colors"
               onClick={() => setMenuOpen((o) => !o)}
+              className="text-slate-500 hover:text-slate-800 transition-colors"
               aria-label="Menu"
             >
-              {menuOpen ? <X size={15} /> : <Menu size={15} />}
+              {menuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </div>
 
+        {/* Nav mobile */}
         {menuOpen && (
-          <nav className="md:hidden border-t border-slate-200 bg-white px-4 py-3 flex flex-col gap-1">
+          <nav className="md:hidden border-t border-slate-100 bg-white px-6 py-4 flex flex-col gap-4">
             {navLinks.map(({ to, label, end }) => (
               <NavLink
                 key={to} to={to} end={end}
-                className={linkClass}
+                className={({ isActive }) =>
+                  `text-sm font-bold tracking-wide ${isActive ? 'text-slate-900' : 'text-slate-400'}`
+                }
                 onClick={() => setMenuOpen(false)}
               >
                 {label}
@@ -100,11 +129,12 @@ export default function MainLayout() {
         <Outlet />
       </main>
 
-      <footer className="border-t border-slate-200 bg-white/60 backdrop-blur-2xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      {/* Footer */}
+      <footer className="border-t border-slate-200 bg-white">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span
-              className="w-6 h-6 flex items-center justify-center font-mono text-xs font-black text-white"
+              className="font-mono text-xs font-black text-white px-1.5 py-0.5"
               style={{ backgroundColor: 'var(--color-accent)' }}
             >
               \w
@@ -119,6 +149,7 @@ export default function MainLayout() {
           <p className="text-xs font-mono text-slate-400">ECMAScript RegExp</p>
         </div>
       </footer>
+
     </div>
   );
 }
