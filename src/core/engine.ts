@@ -1,13 +1,15 @@
 import type { PatternDef, MatchResult } from './types';
 
-// Ejecuta el motor de expresiones regulares de JavaScript (ECMAScript RegExp)
-// sobre la cadena de entrada y retorna el resultado estructurado
-export function testPattern(pattern: PatternDef, input: string): MatchResult {
-  const exec = pattern.regex.exec(input);
-  return {
-    matched: exec !== null,
-    value: exec ? exec[0] : '',
-    groups: exec ? exec.slice(1).filter((g) => g !== undefined) : [],
-    index: exec ? exec.index : -1,
-  };
+// Aplica la expresion regular del patron sobre la cadena recibida
+// y devuelve si hubo coincidencia y cual fue el valor que coincidio
+export function testPattern(patron: PatternDef, cadena: string): MatchResult {
+  const resultado = patron.regex.exec(cadena);
+
+  if (resultado === null) {
+    // La cadena no coincide con el patron
+    return { matched: false, value: '' };
+  }
+
+  // La cadena coincide — resultado[0] es el texto completo que coincidio
+  return { matched: true, value: resultado[0] };
 }

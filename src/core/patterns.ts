@@ -1,9 +1,12 @@
 import type { PatternDef } from './types';
 
-// Definicion de los cinco patrones de la practica.
-// Fuente de las regex: tabla de expresiones regulares sugeridas (Lenguajes y Automatas I)
+// Los cinco patrones de la practica de Lenguajes y Automatas I.
+// Cada patron tiene: la regex, su explicacion token a token,
+// y una funcion para dividir la cadena valida en segmentos.
 
 export const PATTERNS: PatternDef[] = [
+
+  // ── 1. Nombre completo ──────────────────────────────────────────
   {
     id: 'nombre',
     name: 'Nombre',
@@ -12,14 +15,22 @@ export const PATTERNS: PatternDef[] = [
     regex: /^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*$/,
     parts: [
       { token: '^',                              label: 'Inicio de cadena' },
-      { token: '[A-ZÁÉÍÓÚÑ]',                    label: 'Mayuscula inicial (incluye acentos y N con tilde)' },
+      { token: '[A-ZÁÉÍÓÚÑ]',                    label: 'Mayuscula inicial (incluye acentos y Ñ)' },
       { token: '[a-záéíóúñ]+',                   label: 'Una o mas letras minusculas' },
-      { token: '(\\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*', label: 'Cero o mas palabras adicionales con mayuscula inicial' },
+      { token: '(\\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*', label: 'Cero o mas palabras adicionales separadas por espacio' },
       { token: '$',                              label: 'Fin de cadena' },
     ],
-    decompose: (s) =>
-      s.split(' ').map((word, i) => ({ label: `Palabra ${i + 1}`, value: word })),
+    decompose: (cadena) => {
+      // Separamos el nombre por espacios y etiquetamos cada palabra
+      const palabras = cadena.split(' ');
+      return palabras.map((palabra, i) => ({
+        label: `Palabra ${i + 1}`,
+        value: palabra,
+      }));
+    },
   },
+
+  // ── 2. Telefono ─────────────────────────────────────────────────
   {
     id: 'telefono',
     name: 'Telefono',
@@ -31,12 +42,20 @@ export const PATTERNS: PatternDef[] = [
       { token: '\\d{10}', label: 'Exactamente 10 digitos numericos (0-9)' },
       { token: '$',       label: 'Fin de cadena' },
     ],
-    decompose: (s) => [
-      { label: 'Clave LADA', value: s.slice(0, 2) },
-      { label: 'Numero local', value: s.slice(2, 6) },
-      { label: 'Extension', value: s.slice(6, 10) },
-    ],
+    decompose: (cadena) => {
+      // Un telefono mexicano: 2 digitos de LADA + 4 digitos + 4 digitos
+      const lada      = cadena.slice(0, 2);
+      const primeros  = cadena.slice(2, 6);
+      const segundos  = cadena.slice(6, 10);
+      return [
+        { label: 'LADA', value: lada },
+        { label: 'Primeros 4', value: primeros },
+        { label: 'Ultimos 4', value: segundos },
+      ];
+    },
   },
+
+  // ── 3. Correo electronico ───────────────────────────────────────
   {
     id: 'correo',
     name: 'Correo',
@@ -46,48 +65,64 @@ export const PATTERNS: PatternDef[] = [
     parts: [
       { token: '^',              label: 'Inicio de cadena' },
       { token: '[\\w-]+',        label: 'Usuario: letras, numeros, guion o guion bajo' },
-      { token: '@',              label: 'Arroba: separador obligatorio' },
+      { token: '@',              label: 'Arroba separadora obligatoria' },
       { token: '[a-zA-Z\\d.-]+', label: 'Nombre del dominio' },
-      { token: '\\.',            label: 'Punto literal entre dominio y extension' },
+      { token: '\\.',            label: 'Punto literal' },
       { token: '[a-zA-Z]{2,}',   label: 'Extension: minimo 2 letras (com, mx, org...)' },
       { token: '$',              label: 'Fin de cadena' },
     ],
-    decompose: (s) => {
-      const [local, rest] = s.split('@');
-      const lastDot = rest.lastIndexOf('.');
+    decompose: (cadena) => {
+      // Dividimos por @ para separar usuario del dominio
+      const partes          = cadena.split('@');
+      const usuario         = partes[0];
+      const dominioCompleto = partes[1];
+
+      // En el dominio buscamos el ultimo punto para separar extension
+      const posUltimoPunto = dominioCompleto.lastIndexOf('.');
+      const dominio        = dominioCompleto.slice(0, posUltimoPunto);
+      const extension      = dominioCompleto.slice(posUltimoPunto + 1);
+
       return [
-        { label: 'Usuario', value: local },
-        { label: 'Dominio', value: rest.slice(0, lastDot) },
-        { label: 'Extension', value: rest.slice(lastDot + 1) },
+        { label: 'Usuario', value: usuario },
+        { label: 'Dominio', value: dominio },
+        { label: 'Extension', value: extension },
       ];
     },
   },
+
+  // ── 4. RFC ──────────────────────────────────────────────────────
   {
     id: 'rfc',
     name: 'RFC',
-    description: '4 letras, 6 numeros y 3 caracteres de homoclave.',
+    description: '3-4 letras, 6 numeros de fecha y 3 caracteres de homoclave.',
     example: 'GOMA820716KH3',
     regex: /^[A-ZÑ&]{3,4}\d{6}[A-Z\d]{3}$/,
     parts: [
-      { token: '^',            label: 'Inicio de cadena' },
-      { token: '[A-ZN&]{3,4}', label: '3 letras (persona moral) o 4 letras (persona fisica): iniciales del nombre' },
+      { token: '^',             label: 'Inicio de cadena' },
+      { token: '[A-ZÑ&]{3,4}', label: '3 letras (persona moral) o 4 letras (persona fisica): iniciales del nombre' },
       { token: '\\d{6}',       label: '6 digitos: fecha de nacimiento en formato AAMMDD' },
       { token: '[A-Z\\d]{3}',  label: '3 caracteres alfanumericos: homoclave asignada por el SAT' },
       { token: '$',            label: 'Fin de cadena' },
     ],
-    decompose: (s) => {
-      const letras = s.match(/^[A-ZÑ&]{3,4}/)?.[0] ?? '';
-      const fecha = s.slice(letras.length, letras.length + 6);
-      const hc = s.slice(letras.length + 6);
+    decompose: (cadena) => {
+      // El RFC tiene 12 caracteres (persona moral) o 13 (persona fisica)
+      // Los primeros 3 o 4 son letras, luego 6 digitos, luego 3 de homoclave
+      const longitudIniciales = cadena.length === 12 ? 3 : 4;
+      const iniciales  = cadena.slice(0, longitudIniciales);
+      const fecha      = cadena.slice(longitudIniciales, longitudIniciales + 6);
+      const homoclave  = cadena.slice(longitudIniciales + 6);
+
       return [
-        { label: 'Iniciales', value: letras },
-        { label: 'Fecha (AA)', value: fecha.slice(0, 2) },
-        { label: 'Fecha (MM)', value: fecha.slice(2, 4) },
-        { label: 'Fecha (DD)', value: fecha.slice(4, 6) },
-        { label: 'Homoclave', value: hc },
+        { label: 'Iniciales', value: iniciales },
+        { label: 'Año',       value: fecha.slice(0, 2) },
+        { label: 'Mes',       value: fecha.slice(2, 4) },
+        { label: 'Dia',       value: fecha.slice(4, 6) },
+        { label: 'Homoclave', value: homoclave },
       ];
     },
   },
+
+  // ── 5. CURP ─────────────────────────────────────────────────────
   {
     id: 'curp',
     name: 'CURP',
@@ -95,22 +130,26 @@ export const PATTERNS: PatternDef[] = [
     example: 'GOMA820716HDFRRN09',
     regex: /^[A-Z]{4}\d{6}[HM][A-Z]{5}[A-Z\d]\d$/,
     parts: [
-      { token: '^',         label: 'Inicio de cadena' },
-      { token: '[A-Z]{4}',  label: '4 letras del nombre: 2 apellido paterno + 1 materno + 1 primer nombre' },
-      { token: '\\d{6}',    label: '6 digitos: fecha de nacimiento AAMMDD' },
-      { token: '[HM]',      label: 'Sexo registral: H (Hombre) o M (Mujer)' },
-      { token: '[A-Z]{5}',  label: '5 letras: 2 entidad federativa + 3 consonantes del nombre' },
-      { token: '[A-Z\\d]',  label: '1 caracter diferenciador alfanumerico' },
-      { token: '\\d',       label: '1 digito verificador' },
-      { token: '$',         label: 'Fin de cadena' },
+      { token: '^',        label: 'Inicio de cadena' },
+      { token: '[A-Z]{4}', label: '4 letras del nombre: 2 apellido paterno + 1 materno + 1 primer nombre' },
+      { token: '\\d{6}',   label: '6 digitos: fecha de nacimiento AAMMDD' },
+      { token: '[HM]',     label: 'Sexo registral: H (Hombre) o M (Mujer)' },
+      { token: '[A-Z]{5}', label: '5 letras: 2 entidad federativa + 3 consonantes del nombre' },
+      { token: '[A-Z\\d]', label: '1 caracter diferenciador alfanumerico' },
+      { token: '\\d',      label: '1 digito verificador' },
+      { token: '$',        label: 'Fin de cadena' },
     ],
-    decompose: (s) => [
-      { label: 'Iniciales nombre', value: s.slice(0, 4) },
-      { label: 'Fecha nacimiento', value: s.slice(4, 10) },
-      { label: 'Sexo', value: s.slice(10, 11) },
-      { label: 'Entidad + consonantes', value: s.slice(11, 16) },
-      { label: 'Diferenciador', value: s.slice(16, 17) },
-      { label: 'Verificador', value: s.slice(17, 18) },
-    ],
+    decompose: (cadena) => {
+      // La CURP siempre tiene 18 caracteres con posiciones fijas
+      return [
+        { label: 'Iniciales nombre',      value: cadena.slice(0, 4)  },
+        { label: 'Fecha nacimiento',      value: cadena.slice(4, 10) },
+        { label: 'Sexo',                  value: cadena.slice(10, 11) },
+        { label: 'Entidad + consonantes', value: cadena.slice(11, 16) },
+        { label: 'Diferenciador',         value: cadena.slice(16, 17) },
+        { label: 'Verificador',           value: cadena.slice(17, 18) },
+      ];
+    },
   },
+
 ];
